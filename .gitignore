@@ -1,17 +1,97 @@
+# ==================================================
+# AI LAB V5
+# ==================================================
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables
+.env
+.env.*
+
+# SQLite Databases
 *.db
 *.sqlite
 *.sqlite3
 
-venv/
-.env
-
-logs/
-
-dashboard/__pycache__/
-server/__pycache__/
-
 database/chat.db
 
+# Logs
+logs/
 *.log
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# Streamlit cache
+.streamlit/secrets.toml
+
+# Python cache folders
+.pytest_cache/
+.mypy_cache/
+
+# Git cache
+.gitmodules
+
+# Large generated inventories
+C_DRIVE_MAP.txt
+BACKUP_TREE.txt
+AI_SERVER_TREE.txt
+
+# Backup folders
+Backup/
+backup/
+backups/
+
+# Runtime temporary files
+*.tmp
+*.temp
+
+# PowerShell history exports
+*_history.txt
+
+# Compiled bytecode
+*.class
+
+# Distribution
+build/
+dist/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Local AI runtime artifacts
+ollama.log
+gpu.log
+
+# Memory exports
+memory_export.json
+knowledge_export.json
+inventory_export.json
+
+# Future generated snapshots
+snapshots/
+exports/
+
+# Streamlit generated files
+.streamlit/
+
+# Local notes
+notes_private.md
+
