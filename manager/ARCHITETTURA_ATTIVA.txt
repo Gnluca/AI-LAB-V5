@@ -1,0 +1,58 @@
+SERVER
+------
+192.168.1.41:8000
+
+OLLAMA
+------
+127.0.0.1:11434
+
+MODELLO
+--------
+llama3.1
+
+DATABASE SERVER
+---------------
+E:\AI-Server\database\chat.db
+
+CLIENT
+------
+E:\AI-Learning-Studio
+
+SOCIAL
+------
+E:\SocialAI
+
+SERVER AI
+=========
+
+IP SERVER
+192.168.1.41
+
+FASTAPI
+http://192.168.1.41:8000
+
+OLLAMA
+http://127.0.0.1:11434
+
+MODELLO DEFAULT
+llama3.1
+
+
+PROGETTI ATTIVI
+===============
+
+E:\AI-Server
+E:\AI-Learning-Studio
+E:\SocialAI
+
+
+DATABASE
+=========
+
+E:\AI-Server\database\chat.db
+E:\SocialAI\database\socialai.db
+
+
+
+
+
