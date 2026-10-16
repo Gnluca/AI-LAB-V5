@@ -1,0 +1,97 @@
+import requests
+import time
+from datetime import datetime
+from pathlib import Path
+
+# =====================================
+# CONFIG
+# =====================================
+
+SERVER_URL = "http://127.0.0.1:8000"
+
+LOG_DIR = Path(r"E:\AI-Server\logs")
+LOG_DIR.mkdir(exist_ok=True)
+
+LOG_FILE = LOG_DIR / "ai_lab.log"
+
+CHECK_INTERVAL = 300  # 5 minuti
+
+# =====================================
+# LOG
+# =====================================
+
+def write_log(message):
+
+    timestamp = datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
+    line = f"[{timestamp}] {message}\n"
+
+    with open(
+        LOG_FILE,
+        "a",
+        encoding="utf-8"
+    ) as f:
+
+        f.write(line)
+
+    print(line.strip())
+
+
+# =====================================
+# HTTP
+# =====================================
+
+def get_json(endpoint):
+
+    try:
+
+        r = requests.get(
+            f"{SERVER_URL}{endpoint}",
+            timeout=5
+        )
+
+        r.raise_for_status()
+
+        return r.json()
+
+    except Exception as e:
+
+        write_log(
+            f"ERROR {endpoint}: {e}"
+        )
+
+        return None
+
+
+# =====================================
+# HEALTH CHECK
+# =====================================
+
+def check_status():
+
+    status = get_json("/status")
+
+    if status:
+
+        write_log(
+            f"STATUS: {status}"
+        )
+
+        return True
+
+    return False
+
+
+# =====================================
+# FACTORY
+# =====================================
+
+def check_factory():
+
+    data = get_json(
+        "/factory/status"
+    )
+
+    if data:

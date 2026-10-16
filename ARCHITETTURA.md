@@ -484,3 +484,22 @@ I nodi secondari non possono:
 - conoscere la memoria centrale
 
 Il lavoro viene assegnato dal nodo primario.
+
+REGOLA 13 - LOCAL FIRST
+
+Tutti i componenti residenti
+sul nodo primario devono utilizzare:
+
+127.0.0.1
+
+per comunicare con il server locale.
+
+L'indirizzo pubblico:
+
+192.168.1.41
+
+è utilizzato solo da:
+
+- Client LAN
+- Nodi remoti
+- Worker
