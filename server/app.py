@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 app = FastAPI(
-    title="AI LAB V6"
+    title="AI LAB V6",
+    version="6.0"
 )
 
 app.add_middleware(
@@ -41,3 +43,5 @@ if __name__ == "__main__":
         port=8000,
         reload=False
     )
+    
+    
