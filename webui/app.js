@@ -1,39 +1,46 @@
-import streamlit as st
-import requests
-from config import SERVER_URL
+async function updateStatus() {
 
-st.set_page_config(
-    page_title="AI LAB V6",
-    layout="wide"
-)
+    try {
 
-st.title("🚀 AI LAB V6")
+        const response = await fetch(
+            "http://127.0.0.1:8000/status"
+        );
 
-try:
-    # Stato server
-    data = requests.get(
-        f"{SERVER_URL}/status",
-        timeout=5
-    ).json()
+        const data = await response.json();
 
-    st.success("✅ AI Server Online")
+        document.getElementById("server").textContent =
+            data.status.toUpperCase();
 
-    col1, col2, col3 = st.columns(3)
+        document.getElementById("server").className =
+            "value online";
 
-    with col1:
-        st.metric("Server", data.get("status", "N/D"))
+        document.getElementById("ollama").textContent =
+            data.ollama.toUpperCase();
 
-    with col2:
-        st.metric("Ollama", data.get("ollama", "N/D"))
+        document.getElementById("ollama").className =
+            "value online";
 
-    with col3:
-        st.metric("Modello", data.get("model", "N/D"))
+        document.getElementById("model").textContent =
+            data.model;
 
-    st.subheader("Dettagli")
-    st.json(data)
+    } catch (error) {
 
-except Exception as e:
-    st.error(
-        f"❌ AI Server non raggiungibile\n\n{e}"
-    )
-    st.stop()
+        document.getElementById("server").textContent =
+            "OFFLINE";
+
+        document.getElementById("server").className =
+            "value offline";
+
+        document.getElementById("ollama").textContent =
+            "OFFLINE";
+
+        document.getElementById("ollama").className =
+            "value offline";
+
+        console.error(error);
+    }
+}
+
+updateStatus();
+
+setInterval(updateStatus, 10000);
