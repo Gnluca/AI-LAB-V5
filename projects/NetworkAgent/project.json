@@ -1,0 +1,7 @@
+{
+  "name": "NetworkAgent",
+  "version": "1.0",
+  "status": "active",
+  "type": "agent",
+  "goal": "Monitoraggio nodi AI LAB"
+}

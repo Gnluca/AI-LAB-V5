@@ -310,6 +310,15 @@ def development_audit():
 
     return agent.audit()
 
+@app.get("/agent/network/status")
+def network_status():
+
+    from network_agent import NetworkAgent
+
+    agent = NetworkAgent()
+
+    return agent.status()
+
 
 
 # =====================================
