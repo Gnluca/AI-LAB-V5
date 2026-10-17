@@ -287,6 +287,30 @@ def labmanager_governance():
         "governance": content
     }
 
+@app.get("/agent/development/status")
+def development_status():
+    return {
+        "agent": "DevelopmentAgent",
+        "status": "online"
+    }
+
+@app.get("/agent/development/audit")
+def development_audit():
+
+    import sys
+
+    agent_path = r"E:\AI-Server\projects\DevelopmentAgent"
+
+    if agent_path not in sys.path:
+        sys.path.append(agent_path)
+
+    from development_agent import DevelopmentAgent
+
+    agent = DevelopmentAgent()
+
+    return agent.audit()
+
+
 
 # =====================================
 # MEMORY AGENT

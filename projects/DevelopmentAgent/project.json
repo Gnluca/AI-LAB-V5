@@ -1,0 +1,7 @@
+{
+  "name": "DevelopmentAgent",
+  "version": "1.0",
+  "status": "active",
+  "type": "agent",
+  "goal": "Analisi e sviluppo automatico del laboratorio"
+}
