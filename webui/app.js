@@ -151,6 +151,50 @@ async function loadNetwork() {
     }
 }
 
+async function loadDevelopmentAgent() {
+
+    const panel =
+        document.getElementById(
+            "development-agent"
+        );
+
+    if (!panel) return;
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/agent/development/status`
+        );
+
+        const data = await response.json();
+
+        panel.innerHTML = `
+            <p>
+                <b>Agent:</b>
+                ${data.agent}
+            </p>
+
+            <p>
+                <b>Status:</b>
+                ${data.status}
+            </p>
+        `;
+
+    } catch (error) {
+
+        console.error(
+            "Errore DevelopmentAgent:",
+            error
+        );
+
+        panel.innerHTML = `
+            <p style="color:red">
+                ❌ DevelopmentAgent non disponibile
+            </p>
+        `;
+    }
+}
+
 async function init() {
 
     await loadStatus();
