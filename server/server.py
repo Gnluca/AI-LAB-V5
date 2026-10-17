@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import json
 import requests
+import requests
 
 from bridge import (
     generate,
@@ -211,6 +212,34 @@ def network_lab():
             "model": "llama3.1"
         }
     }
+
+@app.get("/network/lab")
+def network_lab():
+
+    result = {
+        "node_41": {
+            "ip": "192.168.1.41",
+            "status": "online",
+            "role": "primary"
+        }
+    }
+
+    try:
+        node56 = requests.get(
+            "http://192.168.1.56:8000/status",
+            timeout=5
+        ).json()
+
+        result["node_56"] = node56
+
+    except Exception as e:
+
+        result["node_56"] = {
+            "status": "offline",
+            "error": str(e)
+        }
+
+    return result
 
 
 # =====================================

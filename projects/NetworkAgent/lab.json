@@ -1,0 +1,14 @@
+{
+  "laboratory": "AI LAB",
+  "primary_node": {
+    "ip": "192.168.1.41",
+    "status": "online"
+  },
+  "legacy_node": {
+    "ip": "192.168.1.56",
+    "status": "online",
+    "model": "llama3.1"
+  },
+  "connected_nodes": 2,
+  "network_status": "healthy"
+}
