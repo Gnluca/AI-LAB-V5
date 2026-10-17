@@ -1,66 +1,162 @@
-async function updateStatus() {
-    try {
-        const response = await fetch(
-            "http://127.0.0.1:8000/status",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        );
+const API_URL = "http://127.0.0.1:8000";
 
-        if (!response.ok) {
-            throw new Error("Server non raggiungibile");
-        }
+async function loadStatus() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/status`
+        );
 
         const data = await response.json();
 
-        document.getElementById("server").textContent =
-            (data.status || "ONLINE").toUpperCase();
+        const serverStatus =
+            document.getElementById("server-status");
 
-        document.getElementById("server").className =
-            "value online";
+        const ollamaStatus =
+            document.getElementById("ollama-status");
 
-        document.getElementById("ollama").textContent =
-            (data.ollama || "ONLINE").toUpperCase();
+        const modelName =
+            document.getElementById("model-name");
 
-        document.getElementById("ollama").className =
-            "value online";
+        if (serverStatus) {
+            serverStatus.textContent =
+                data.status || "ONLINE";
+        }
 
-        document.getElementById("model").textContent =
-            data.model || "llama3.1";
+        if (ollamaStatus) {
+            ollamaStatus.textContent =
+                data.ollama || "ONLINE";
+        }
+
+        if (modelName) {
+            modelName.textContent =
+                data.model || "llama3.1";
+        }
 
     } catch (error) {
 
-        document.getElementById("server").textContent =
-            "OFFLINE";
+        console.error("Errore status:", error);
 
-        document.getElementById("server").className =
-            "value offline";
+        const serverStatus =
+            document.getElementById("server-status");
 
-        document.getElementById("ollama").textContent =
-            "OFFLINE";
-
-        document.getElementById("ollama").className =
-            "value offline";
-
-        document.getElementById("model").textContent =
-            "Non disponibile";
-
-        console.error("Errore API:", error);
+        if (serverStatus) {
+            serverStatus.textContent =
+                "OFFLINE";
+        }
     }
 }
 
-function updateClock() {
-    const now = new Date();
+async function loadNetwork() {
 
-    document.getElementById("clock").textContent =
-        now.toLocaleString("it-IT");
+    const panel =
+        document.getElementById(
+            "network-panel"
+        );
+
+    if (!panel) return;
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/network/scan`
+        );
+
+        const data = await response.json();
+
+        let html = "";
+
+        data.results.forEach(node => {
+
+            const online =
+                typeof node.status === "object";
+
+            const badge =
+                online
+                    ? "🟢 ONLINE"
+                    : "🔴 OFFLINE";
+
+            const model =
+                online
+                    ? (node.status.model || "N/A")
+                    : "N/A";
+
+            html += `
+                <div class="network-node">
+
+                    <h3>${node.name}</h3>
+
+                    <p>
+                        <b>IP:</b>
+                        ${node.ip}
+                    </p>
+
+                    <p>
+                        <b>Role:</b>
+                        ${node.role}
+                    </p>
+
+                    <p>
+                        <b>Status:</b>
+                        ${badge}
+                    </p>
+
+                    <p>
+                        <b>Model:</b>
+                        ${model}
+                    </p>
+
+                    ${
+                        !online
+                        ? `
+                        <p style="color:red">
+                            ${node.error || ""}
+                        </p>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+                <hr>
+            `;
+        });
+
+                html += `
+            <p>
+                <b>Administrator:</b>
+                ${data.administrator}
+            </p>
+
+            <p>
+                <b>Connected Nodes:</b>
+                ${data.connected_nodes}
+            </p>
+
+            <p>
+                <b>Online Nodes:</b>
+                ${data.online_nodes || 0}
+            </p>
+        `;
+
+        panel.innerHTML = html;
+
+    } catch (error) {
+
+        console.error(error);
+
+        panel.innerHTML =
+            "Errore caricamento rete";
+    }
 }
 
-updateStatus();
-updateClock();
+async function init() {
 
-setInterval(updateStatus, 10000);
-setInterval(updateClock, 1000);
+    await loadStatus();
+    await loadDevelopmentAgent();
+    await loadNetwork();
+
+}
+
+window.onload = init;

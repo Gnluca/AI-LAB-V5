@@ -1,0 +1,42 @@
+import json
+import requests
+
+@app.get("/network/scan")
+def network_scan():
+
+    with open(
+        r"E:\AI-Server\data\nodes.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        data = json.load(f)
+
+    results = []
+
+    for node in data["nodes"]:
+
+        try:
+
+            status = requests.get(
+                f"http://{node['ip']}:8000/status",
+                timeout=3
+            ).json()
+
+            results.append({
+                "name": node["name"],
+                "ip": node["ip"],
+                "role": node["role"],
+                "status": status
+            })
+
+        except Exception:
+
+            results.append({
+                "name": node["name"],
+                "ip": node["ip"],
+                "role": node["role"],
+                "status": "offline"
+            })
+
+    return results

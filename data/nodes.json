@@ -1,0 +1,17 @@
+{
+    "administrator": "192.168.1.41",
+    "nodes": [
+        {
+            "ip": "192.168.1.41",
+            "name": "Node41",
+            "role": "PRIMARY",
+            "enabled": true
+        },
+        {
+            "ip": "192.168.1.56",
+            "name": "Node56",
+            "role": "SECONDARY",
+            "enabled": true
+        }
+    ]
+}

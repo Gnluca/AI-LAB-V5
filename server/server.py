@@ -5,7 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import json
 import requests
-import requests
 
 from bridge import (
     generate,
@@ -241,18 +240,95 @@ def network_lab():
 
     return result
 
+@app.get("/network/nodes")
+def network_nodes():
 
+    with open(
+        r"E:\AI-Server\data\nodes.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        return json.load(f)
+
+@app.get("/network/scan")
+def network_scan():
+
+    with open(
+        r"E:\AI-Server\data\nodes.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+        registry = json.load(f)
+
+    results = []
+
+    for node in registry["nodes"]:
+
+        if not node.get("enabled", True):
+            continue
+
+        try:
+
+            if node["ip"] == "192.168.1.41":
+
+                results.append({
+                    "name": node["name"],
+                    "ip": node["ip"],
+                    "role": node["role"],
+                    "status": {
+                        "status": "online",
+                        "ollama": "online",
+                        "model": "llama3.1"
+                    }
+                })
+
+                continue
+
+            response = requests.get(
+                f"http://{node['ip']}:8000/status",
+                timeout=10
+            )
+
+            results.append({
+                "name": node["name"],
+                "ip": node["ip"],
+                "role": node["role"],
+                "status": response.json()
+            })
+
+        except Exception as e:
+
+            results.append({
+                "name": node["name"],
+                "ip": node["ip"],
+                "role": node["role"],
+                "status": "offline",
+                "error": str(e)
+            })
+
+    online_nodes = sum(
+        1
+        for node in results
+        if isinstance(node["status"], dict)
+    )
+
+    return {
+        "administrator": registry["administrator"],
+        "connected_nodes": len(results),
+        "online_nodes": online_nodes,
+        "results": results
+    }
+
+    return {
+        "administrator": registry["administrator"],
+        "connected_nodes": len(results),
+        "results": results
+    }
 # =====================================
 # NETWORK AGENT
 # =====================================
 
-@app.get("/agent/network/status")
-def network_agent_status():
-
-    return {
-        "agent": "NetworkAgent",
-        "status": "active"
-    }
 
 
 @app.get("/agent/network/discover")

@@ -1,0 +1,12 @@
+import json
+
+@app.get("/network/nodes")
+def network_nodes():
+
+    with open(
+        r"E:\AI-Server\data\nodes.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        return json.load(f)

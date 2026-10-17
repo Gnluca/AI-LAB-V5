@@ -2,63 +2,126 @@
 <html lang="it">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI LAB V6</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI LAB V6.1</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
     <header>
-        <h1>🚀 AI LAB V6</h1>
-        <p>Nodo Primario 192.168.1.41</p>
+
+        <h1>🚀 AI LAB V6.1</h1>
+
+        <p>
+            AI LAB Manager
+        </p>
+
+        <p>
+            Primary Node:
+            192.168.1.41
+        </p>
+
     </header>
 
-    <div class="dashboard">
+    <main>
 
-        <div class="card">
-            <h2>AI Server</h2>
-            <div id="server" class="value">
+        <section class="card">
+
+            <h2>📊 Sistema</h2>
+
+            <p>
+                <strong>Server:</strong>
+                <span id="server-status">
+                    Caricamento...
+                </span>
+            </p>
+
+            <p>
+                <strong>Ollama:</strong>
+                <span id="ollama-status">
+                    Caricamento...
+                </span>
+            </p>
+
+            <p>
+                <strong>Modello:</strong>
+                <span id="model-name">
+                    Caricamento...
+                </span>
+            </p>
+
+        </section>
+
+        <section class="card">
+
+            <h2>🤖 Development Agent</h2>
+
+            <div id="development-agent">
+
                 Caricamento...
+
             </div>
-        </div>
 
-        <div class="card">
-            <h2>Ollama</h2>
-            <div id="ollama" class="value">
-                Caricamento...
+        </section>
+
+        <section class="card">
+
+            <h2>🌐 AI LAB NETWORK</h2>
+
+            <div id="network-panel">
+
+                Caricamento rete...
+
             </div>
-        </div>
 
-        <div class="card">
-            <h2>Modello Attivo</h2>
-            <div id="model" class="value">
-                Caricamento...
+        </section>
+
+        <section class="card">
+
+            <h2>🧠 Informazioni Laboratorio</h2>
+
+            <div id="lab-info">
+
+                <p>
+                    Nodo Primario:
+                    192.168.1.41
+                </p>
+
+                <p>
+                    Nodo Secondario:
+                    192.168.1.56
+                </p>
+
+                <p>
+                    Modalità:
+                    Point-To-Point
+                </p>
+
             </div>
-        </div>
 
-        <div class="card">
-            <h2>Data/Ora</h2>
-            <div id="clock" class="value">
-                --
-            </div>			
-        </div>
-		
-    <div class="card">
-        <h2>🛡 Sicurezza</h2>
+        </section>
 
-        <a href="security.html">
-        Apri Security Center
-        </a>
-        </div>
+    </main>
 
-    </div>
+    <footer>
 
-    <div class="footer">
-        AI LAB V6 • Local AI Infrastructure
-     </div>
+        <p>
+            AI LAB V6.1
+        </p>
+
+        <p>
+            FastAPI • Ollama • DevelopmentAgent • NetworkAgent
+        </p>
+
+    </footer>
 
     <script src="app.js"></script>
 
