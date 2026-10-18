@@ -5,6 +5,14 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import json
 import requests
+import sys
+
+mcp_path = r"E:\AI-Server\projects\MCPServer"
+
+if mcp_path not in sys.path:
+    sys.path.append(mcp_path)
+
+from mcp_server import MCPServer
 
 from bridge import (
     generate,
@@ -957,5 +965,26 @@ def inventory_audit():
         ],
         "status": "healthy"
     }
+    
+# ============================================
+# MCP SERVER
+# ============================================
+
+@app.get("/mcp/tools")
+def mcp_tools():
+
+    mcp = MCPServer()
+
+    return mcp.list_tools()
+
+
+@app.get("/mcp/call/{tool_name}")
+def mcp_call(tool_name: str):
+
+    mcp = MCPServer()
+
+    return mcp.call_tool(tool_name)
+    
+    
 
     

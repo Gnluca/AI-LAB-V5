@@ -1,0 +1,7 @@
+{
+  "name": "MCPServer",
+  "version": "1.0",
+  "status": "active",
+  "type": "gateway",
+  "goal": "Expose AI LAB tools through MCP"
+}
