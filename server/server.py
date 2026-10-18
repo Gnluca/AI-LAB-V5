@@ -423,6 +423,26 @@ def network_status():
     agent = NetworkAgent()
 
     return agent.status()
+    
+@app.get("/agent/hardware/status")
+def hardware_status():
+
+    import sys
+
+    agent_path = (
+        r"E:\AI-Server\projects\HardwareAgent"
+    )
+
+    if agent_path not in sys.path:
+        sys.path.append(agent_path)
+
+    from hardware_agent import HardwareAgent
+
+    agent = HardwareAgent()
+
+    return agent.status()
+
+   
 
 
 
