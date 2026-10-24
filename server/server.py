@@ -6,8 +6,11 @@ import os
 import json
 import requests
 import sys
+import json
+from pathlib import Path
 
 mcp_path = r"E:\AI-Server\projects\MCPServer"
+REGISTRY_DIR = Path(r"E:\AI-Server\registry")
 
 if mcp_path not in sys.path:
     sys.path.append(mcp_path)
@@ -984,6 +987,110 @@ def mcp_call(tool_name: str):
     mcp = MCPServer()
 
     return mcp.call_tool(tool_name)
+    
+    
+@app.get("/registry/nodes")
+def registry_nodes():
+
+    file_path = REGISTRY_DIR / "nodes_registry.json"
+
+    if not file_path.exists():
+        return {
+            "status": "error",
+            "message": "nodes_registry.json not found"
+        }
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/registry/resources")
+def registry_resources():
+
+    file_path = REGISTRY_DIR / "resources_registry.json"
+
+    if not file_path.exists():
+        return {
+            "status": "error",
+            "message": "resources_registry.json not found"
+        }
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/registry/governance")
+def registry_governance():
+
+    file_path = REGISTRY_DIR / "governance_registry.json"
+
+    if not file_path.exists():
+        return {
+            "status": "error",
+            "message": "governance_registry.json not found"
+        }
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+        
+@app.get("/registry/passports")
+def registry_passports():
+
+    file_path = REGISTRY_DIR / "passports_registry.json"
+
+    if not file_path.exists():
+        return {
+            "status": "error",
+            "message": "passports_registry.json not found"
+        }
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/registry/node41")
+def node41_fingerprint():
+
+    file_path = REGISTRY_DIR / "node41_fingerprint.json"
+
+    if not file_path.exists():
+        return {
+            "status": "error",
+            "message": "node41_fingerprint.json not found"
+        }
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/registry/node56")
+def node56_fingerprint():
+
+    file_path = REGISTRY_DIR / "node56_fingerprint.json"
+
+    if not file_path.exists():
+        return {
+            "status": "error",
+            "message": "node56_fingerprint.json not found"
+        }
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/registry/overview")
+def registry_overview():
+
+    return {
+        "lab": "AI-LAB",
+        "version": "V6.2",
+        "primary_node": "node41",
+        "nodes_registered": 2,
+        "resources_registered": 9,
+        "governance": "enabled",
+        "passport_authority": "enabled"
+    }        
+
     
     
 

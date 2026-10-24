@@ -1,0 +1,14 @@
+{
+  "passports": [
+    {
+      "passport_id": "AILAB-PASS-000041",
+      "node_id": "node41",
+      "status": "VALID"
+    },
+    {
+      "passport_id": "AILAB-PASS-000056",
+      "node_id": "node56",
+      "status": "VALID"
+    }
+  ]
+}

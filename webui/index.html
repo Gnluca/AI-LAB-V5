@@ -1,130 +1,71 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>AI LAB V6.1</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LAB V6.2</title>
+	
+         <p id="clock"></p> 
+		 
     <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
 
     <header>
-
-        <h1>🚀 AI LAB V6.1</h1>
-
-        <p>
-            AI LAB Manager
-        </p>
-
-        <p>
-            Primary Node:
-            192.168.1.41
-        </p>
-
+        <h1>🚀 AI LAB V6.2</h1>
+        <p>Primary Node: node41</p>
     </header>
 
-    <main>
+    <main class="grid">
 
-        <section class="card">
+        <!-- SYSTEM STATUS -->
+        <div class="card">
+            <h2>📊 System Status</h2>
 
-            <h2>📊 Sistema</h2>
+            <p><strong>CPU:</strong> <span id="cpu">--</span></p>
+            <p><strong>RAM:</strong> <span id="ram">--</span></p>
+            <p><strong>Disk:</strong> <span id="disk">--</span></p>
 
-            <p>
-                <strong>Server:</strong>
-                <span id="server-status">
-                    Caricamento...
-                </span>
-            </p>
+            <p><strong>Status:</strong> ONLINE</p>
+        </div>
 
-            <p>
-                <strong>Ollama:</strong>
-                <span id="ollama-status">
-                    Caricamento...
-                </span>
-            </p>
+        <!-- NETWORK -->
+        <div class="card">
+            <h2>🌐 AI LAB Network</h2>
 
-            <p>
-                <strong>Modello:</strong>
-                <span id="model-name">
-                    Caricamento...
-                </span>
-            </p>
+            <p>✅ Node41 - 192.168.1.41</p>
+            <p>✅ Node56 - 192.168.1.56</p>
 
-        </section>
+            <p><strong>Gateway:</strong> 192.168.1.33</p>
+        </div>
 
-        <section class="card">
+        <!-- NODE IDENTITY -->
+        <div class="card">
+            <h2>🪪 Node Identity</h2>
 
-            <h2>🤖 Development Agent</h2>
+            <p><strong>Node ID:</strong> node41</p>
+            <p><strong>Passport:</strong> AILAB-PASS-000041</p>
+            <p><strong>Role:</strong> PRIMARY</p>
 
-            <div id="development-agent">
+            <hr>
 
-                Caricamento...
+            <p><strong>Hostname:</strong> DESKTOP-CPBPB9G</p>
+            <p><strong>IP Address:</strong> 192.168.1.41</p>
+            <p><strong>Gateway:</strong> 192.168.1.33</p>
+            <p><strong>Status:</strong> ONLINE</p>
+        </div>
 
-            </div>
+        <!-- GOVERNANCE -->
+        <div class="card">
+            <h2>🏛 Governance</h2>
 
-        </section>
+            <p><strong>Version:</strong> V6.2</p>
+            <p><strong>Primary Node:</strong> node41</p>
+            <p><strong>Registry:</strong> ACTIVE</p>
+            <p><strong>Fingerprint:</strong> REGISTERED</p>
+            <p><strong>Passport Authority:</strong> ENABLED</p>
+        </div>
 
-        <section class="card">
-
-            <h2>🌐 AI LAB NETWORK</h2>
-
-            <div id="network-panel">
-
-                Caricamento rete...
-
-            </div>
-
-        </section>
-
-        <section class="card">
-
-            <h2>🧠 Informazioni Laboratorio</h2>
-
-            <div id="lab-info">
-
-                <p>
-                    Nodo Primario:
-                    192.168.1.41
-                </p>
-
-                <p>
-                    Nodo Secondario:
-                    192.168.1.56
-                </p>
-
-                <p>
-                    Modalità:
-                    Point-To-Point
-                </p>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <footer>
-
-        <p>
-            AI LAB V6.1
-        </p>
-
-        <p>
-            FastAPI • Ollama • DevelopmentAgent • NetworkAgent
-        </p>
-
-    </footer>
-
-    <script src="app.js"></script>
-
-</body>
-
-</html>
+        <!-- RESOURCES -->
+        <div class="card">
+            <h2>📚 Resources

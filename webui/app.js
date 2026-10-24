@@ -1,206 +1,130 @@
-const API_URL = "http://127.0.0.1:8000";
+// =====================================
+// AI LAB V6.2 Dashboard
+// =====================================
 
-async function loadStatus() {
+const API_BASE = "http://127.0.0.1:8000";
 
-    try {
+// -------------------------------------
+// CLOCK
+// -------------------------------------
 
-        const response = await fetch(
-            `${API_URL}/status`
-        );
+function updateClock() {
+    const clock = document.getElementById("clock");
 
-        const data = await response.json();
+    if (clock) {
+        const now = new Date();
 
-        const serverStatus =
-            document.getElementById("server-status");
-
-        const ollamaStatus =
-            document.getElementById("ollama-status");
-
-        const modelName =
-            document.getElementById("model-name");
-
-        if (serverStatus) {
-            serverStatus.textContent =
-                data.status || "ONLINE";
-        }
-
-        if (ollamaStatus) {
-            ollamaStatus.textContent =
-                data.ollama || "ONLINE";
-        }
-
-        if (modelName) {
-            modelName.textContent =
-                data.model || "llama3.1";
-        }
-
-    } catch (error) {
-
-        console.error("Errore status:", error);
-
-        const serverStatus =
-            document.getElementById("server-status");
-
-        if (serverStatus) {
-            serverStatus.textContent =
-                "OFFLINE";
-        }
+        clock.textContent =
+            now.toLocaleDateString("it-IT") +
+            " " +
+            now.toLocaleTimeString("it-IT");
     }
 }
 
-async function loadNetwork() {
+// -------------------------------------
+// HARDWARE STATUS
+// -------------------------------------
 
-    const panel =
-        document.getElementById(
-            "network-panel"
-        );
-
-    if (!panel) return;
+async function loadHardwareStatus() {
 
     try {
 
-        const response = await fetch(
-            `${API_URL}/network/scan`
-        );
+        const response =
+            await fetch(`${API_BASE}/agent/hardware/status`);
 
         const data = await response.json();
 
-        let html = "";
+        document.getElementById("cpu").textContent =
+            data.cpu_cores ?? "--";
 
-        data.results.forEach(node => {
+        document.getElementById("ram").textContent =
+            data.ram_gb + " GB";
 
-            const online =
-                typeof node.status === "object";
+        document.getElementById("disk").textContent =
+            data.disk_free_gb + " GB";
 
-            const badge =
-                online
-                    ? "🟢 ONLINE"
-                    : "🔴 OFFLINE";
-
-            const model =
-                online
-                    ? (node.status.model || "N/A")
-                    : "N/A";
-
-            html += `
-                <div class="network-node">
-
-                    <h3>${node.name}</h3>
-
-                    <p>
-                        <b>IP:</b>
-                        ${node.ip}
-                    </p>
-
-                    <p>
-                        <b>Role:</b>
-                        ${node.role}
-                    </p>
-
-                    <p>
-                        <b>Status:</b>
-                        ${badge}
-                    </p>
-
-                    <p>
-                        <b>Model:</b>
-                        ${model}
-                    </p>
-
-                    ${
-                        !online
-                        ? `
-                        <p style="color:red">
-                            ${node.error || ""}
-                        </p>
-                        `
-                        : ""
-                    }
-
-                </div>
-
-                <hr>
-            `;
-        });
-
-                html += `
-            <p>
-                <b>Administrator:</b>
-                ${data.administrator}
-            </p>
-
-            <p>
-                <b>Connected Nodes:</b>
-                ${data.connected_nodes}
-            </p>
-
-            <p>
-                <b>Online Nodes:</b>
-                ${data.online_nodes || 0}
-            </p>
-        `;
-
-        panel.innerHTML = html;
-
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(error);
 
-        panel.innerHTML =
-            "Errore caricamento rete";
+        document.getElementById("cpu").textContent = "OFFLINE";
+        document.getElementById("ram").textContent = "OFFLINE";
+        document.getElementById("disk").textContent = "OFFLINE";
     }
+
 }
 
-async function loadDevelopmentAgent() {
+// -------------------------------------
+// SERVER STATUS
+// -------------------------------------
 
-    const panel =
-        document.getElementById(
-            "development-agent"
-        );
-
-    if (!panel) return;
+async function loadServerStatus() {
 
     try {
 
-        const response = await fetch(
-            `${API_URL}/agent/development/status`
-        );
+        const response =
+            await fetch(`${API_BASE}/status`);
 
         const data = await response.json();
 
-        panel.innerHTML = `
-            <p>
-                <b>Agent:</b>
-                ${data.agent}
-            </p>
+        console.log("Server Status:", data);
 
-            <p>
-                <b>Status:</b>
-                ${data.status}
-            </p>
-        `;
-
-    } catch (error) {
-
-        console.error(
-            "Errore DevelopmentAgent:",
-            error
-        );
-
-        panel.innerHTML = `
-            <p style="color:red">
-                ❌ DevelopmentAgent non disponibile
-            </p>
-        `;
     }
-}
+    catch (err) {
 
-async function init() {
+        console.error("Server offline", err);
 
-    await loadStatus();
-    await loadDevelopmentAgent();
-    await loadNetwork();
+    }
 
 }
 
-window.onload = init;
+// -------------------------------------
+// NETWORK STATUS
+// -------------------------------------
+
+async function loadNetworkStatus() {
+
+    try {
+
+        const response =
+            await fetch(`${API_BASE}/network/scan`);
+
+        const data = await response.json();
+
+        console.log("Network:", data);
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+    }
+
+}
+
+// -------------------------------------
+// DASHBOARD START
+// -------------------------------------
+
+async function refreshDashboard() {
+
+    await loadHardwareStatus();
+    await loadServerStatus();
+    await loadNetworkStatus();
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    updateClock();
+
+    refreshDashboard();
+
+    setInterval(updateClock, 1000);
+
+    setInterval(refreshDashboard, 30000);
+
+    console.log("AI LAB Dashboard Online");
+
+});

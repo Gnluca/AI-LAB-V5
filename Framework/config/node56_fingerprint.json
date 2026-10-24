@@ -1,0 +1,29 @@
+{
+    "node_id": "node56",
+    "hostname": "NODE56",
+    "role": "secondary",
+    "environment": "AI-LAB",
+    "version": "V6.2",
+    "ip_address": "192.168.1.56",
+    "subnet": "255.255.255.0",
+    "gateway": "192.168.1.33",
+    "managed_by": "node41",
+    "primary_node": "192.168.1.41",
+    "operating_system": "Windows 11",
+    "python_runtime": "3.14",
+    "framework": "AI-LAB Framework",
+    "services": [
+        "FastAPI",
+        "NetworkAgent",
+        "HardwareAgent"
+    ],
+    "hardware": {
+        "cpu_cores": 0,
+        "logical_cores": 0,
+        "ram_gb": 0
+    },
+    "status": "online",
+    "governed": true,
+    "registered": true,
+    "last_seen": null
+}

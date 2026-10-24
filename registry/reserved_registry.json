@@ -1,0 +1,22 @@
+{
+  "reserved_items": [
+    {
+      "id": "DB-001",
+      "name": "Database",
+      "type": "service",
+      "status": "reserved"
+    },
+    {
+      "id": "ALS-001",
+      "name": "AI-Learning-Studio",
+      "type": "service",
+      "status": "reserved"
+    },
+    {
+      "id": "NODE-070",
+      "name": "Future Node",
+      "type": "node",
+      "status": "reserved"
+    }
+  ]
+}

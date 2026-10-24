@@ -1,0 +1,27 @@
+{
+  "governance_version": "V6.2",
+  "lab_name": "AI-LAB",
+  "primary_node": "node41",
+  "rules": [
+    {
+      "id": "RULE-001",
+      "title": "Node41 is the governance node",
+      "status": "active"
+    },
+    {
+      "id": "RULE-002",
+      "title": "All nodes must be registered",
+      "status": "active"
+    },
+    {
+      "id": "RULE-003",
+      "title": "Reserved resources must remain documented",
+      "status": "active"
+    },
+    {
+      "id": "RULE-004",
+      "title": "Fingerprint required for each node",
+      "status": "active"
+    }
+  ]
+}

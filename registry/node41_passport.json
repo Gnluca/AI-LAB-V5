@@ -1,0 +1,19 @@
+{
+  "passport_id": "AILAB-PASS-000041",
+  "node_id": "node41",
+  "hostname": "DESKTOP-CPBPB9G",
+  "citizenship": "AI-LAB",
+  "rank": "PRIMARY",
+  "version": "V6.2",
+  "issued_by": "AI-LAB Governance",
+  "managed_by": "node41",
+  "issue_date": "2026-10-24",
+  "status": "VALID",
+  "permissions": [
+    "governance",
+    "network_management",
+    "memory_access",
+    "framework_management",
+    "agent_management"
+  ]
+}

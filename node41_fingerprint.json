@@ -1,0 +1,29 @@
+{
+  "node_id": "node41",
+  "hostname": "DESKTOP-CPBPB9G",
+  "role": "primary",
+  "environment": "AI-LAB",
+  "version": "V6.2",
+  "ip_address": "192.168.1.41",
+  "subnet": "192.168.1.0/24",
+  "gateway": "192.168.1.33",
+  "operating_system": "Windows 11",
+  "python_runtime": "3.14",
+  "framework": "AI-LAB Framework",
+  "services": [
+    "FastAPI",
+    "Dashboard",
+    "MemoryAgent",
+    "NetworkAgent",
+    "DevelopmentAgent",
+    "MCP Server"
+  ],
+  "hardware": {
+    "cpu_cores": 16,
+    "ram_gb": 32
+  },
+  "status": "active",
+  "governed": true,
+  "creation_date": "2026-10-24",
+  "owner": "a4199"
+}

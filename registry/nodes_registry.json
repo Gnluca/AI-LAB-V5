@@ -1,0 +1,20 @@
+{
+  "nodes": [
+    {
+      "node_id": "node41",
+      "hostname": "DESKTOP-CPBPB9G",
+      "ip": "192.168.1.41",
+      "role": "primary",
+      "status": "online",
+      "governed": true
+    },
+    {
+      "node_id": "node56",
+      "hostname": "NODE56",
+      "ip": "192.168.1.56",
+      "role": "secondary",
+      "status": "online",
+      "governed": true
+    }
+  ]
+}

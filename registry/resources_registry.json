@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "name": "Framework",
+      "status": "active"
+    },
+    {
+      "name": "Dashboard",
+      "status": "active"
+    },
+    {
+      "name": "FastAPI",
+      "status": "active"
+    },
+    {
+      "name": "MemoryAgent",
+      "status": "active"
+    },
+    {
+      "name": "NetworkAgent",
+      "status": "active"
+    },
+    {
+      "name": "DevelopmentAgent",
+      "status": "active"
+    },
+    {
+      "name": "MCP Server",
+      "status": "active"
+    },
+    {
+      "name": "Database",
+      "status": "reserved"
+    },
+    {
+      "name": "AI-Learning-Studio",
+      "status": "reserved"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "node_id": "node41",
+  "lab_name": "AI-LAB",
+  "hostname": "DESKTOP-CPBPB9G",
+  "ip_address": "192.168.1.41",
+  "gateway": "192.168.1.33",
+  "subnet": "255.255.255.0",
+  "location": "Primary Network",
+  "role": "primary",
+  "status": "online"
+}

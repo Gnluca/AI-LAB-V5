@@ -1,0 +1,17 @@
+{
+  "passport_id": "AILAB-PASS-000056",
+  "node_id": "node56",
+  "hostname": "NODE56",
+  "citizenship": "AI-LAB",
+  "rank": "SECONDARY",
+  "version": "V6.2",
+  "issued_by": "node41",
+  "managed_by": "node41",
+  "issue_date": "2026-10-24",
+  "status": "VALID",
+  "permissions": [
+    "framework_access",
+    "network_access",
+    "service_execution"
+  ]
+}
