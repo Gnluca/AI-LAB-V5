@@ -1,0 +1,19 @@
+{
+    "lab_name": "AI-LAB",
+    "version": "6.3",
+    "runtime": "AI-LAB Runtime",
+    "primary_node": "NODE41",
+    "primary_host": "localhost",
+    "nodes": [
+        {
+            "id": "NODE41",
+            "host": "localhost",
+            "role": "PRIMARY"
+        },
+        {
+            "id": "NODE56",
+            "host": "192.168.1.56",
+            "role": "SECONDARY"
+        }
+    ]
+}

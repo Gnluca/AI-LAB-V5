@@ -1,0 +1,9 @@
+{
+    "node": "NODE41",
+    "role": "PRIMARY",
+    "status": "ONLINE",
+    "framework": "AI-LAB V6.3",
+    "runtime": "AI-LAB Runtime",
+    "server_port": 8000,
+    "ollama_port": 11434
+}

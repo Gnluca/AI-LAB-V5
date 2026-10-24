@@ -1,0 +1,17 @@
+AI-LAB
+
+NODE41 (PRIMARY)
+│
+├── Runtime
+├── Server
+├── Memory
+├── Knowledge
+├── Dashboard
+├── Registry
+└── Agents
+
+NODE56 (SECONDARY)
+│
+├── Runtime
+├── Dashboard
+└── Support Services

@@ -16,5 +16,13 @@
       "status": "online",
       "governed": true
     }
+	{
+  "node_id": "NODE57",
+  "hostname": "AI-Learning-Studio",
+  "role": "secondary",
+  "ip": "192.168.1.xxx"
+    }
   ]
-}
+}     
+
+ 
