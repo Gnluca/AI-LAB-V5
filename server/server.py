@@ -8,9 +8,13 @@ import requests
 import sys
 import json
 from pathlib import Path
+import psutil
 
 mcp_path = r"E:\AI-Server\projects\MCPServer"
 REGISTRY_DIR = Path(r"E:\AI-Server\registry")
+PASSPORT_DIR = Path(r"E:\AI-Server\passport")
+FINGERPRINT_DIR = Path(r"E:\AI-Server\fingerprint")
+
 
 if mcp_path not in sys.path:
     sys.path.append(mcp_path)
@@ -52,10 +56,9 @@ os.makedirs(
     exist_ok=True
 )
 
-app = FastAPI(
-    title="AI LAB V5",
-    version="5.0"
-)
+app = FastAPI(title="AI LAB V6.2")
+
+# CORS
 
 app.add_middleware(
     CORSMiddleware,
@@ -90,6 +93,17 @@ def home():
         "service": "AI LAB V5",
         "model": "llama3.1"
     }
+    
+@app.get("/status")
+def status():
+    return {
+        "status": "online",
+        "ollama": "online",
+        "model": "llama3.1",
+        "cpu": psutil.cpu_percent(interval=1),
+        "ram": psutil.virtual_memory().percent,
+        "disk": psutil.disk_usage("C:\\").percent
+    }    
 
 
 # =====================================
@@ -123,10 +137,55 @@ def chat(data: Prompt):
 # STATUS
 # =====================================
 
+# ------------------------------------------------------------------
+# STATUS
+# ------------------------------------------------------------------
+
 @app.get("/status")
 def status():
 
-    return server_status()
+    ollama_status = "offline"
+    model_name = "unknown"
+
+    try:
+        response = requests.get(
+            "http://127.0.0.1:11434/api/tags",
+            timeout=3
+        )
+
+        if response.status_code == 200:
+            ollama_status = "online"
+
+            models = response.json().get("models", [])
+
+            if models:
+                model_name = models[0].get("name", "unknown")
+
+    except Exception:
+        pass
+
+    return {
+        "status": "online",
+        "ollama": ollama_status,
+        "model": model_name
+    }
+
+
+# ------------------------------------------------------------------
+# HARDWARE STATUS
+# ------------------------------------------------------------------
+
+@app.get("/hardware/status")
+def hardware_status():
+
+    return {
+        "cpu": round(psutil.cpu_percent(interval=1), 1),
+        "ram": round(psutil.virtual_memory().percent, 1),
+        "disk": round(
+            psutil.disk_usage("C:\\").percent,
+            1
+        )
+    }
 
 
 # =====================================
@@ -147,7 +206,7 @@ def models():
 def health():
 
     return {
-        "status": "healthy"
+        "status": "ok"
     }
 
 
@@ -1089,7 +1148,51 @@ def registry_overview():
         "resources_registered": 9,
         "governance": "enabled",
         "passport_authority": "enabled"
-    }        
+    }
+
+# ------------------------------------------------------------------
+# REGISTRY
+# ------------------------------------------------------------------
+
+@app.get("/registry")
+def registry():
+
+    return {
+        "node_id": "NODE41",
+        "name": "Primary Node",
+        "ip": "192.168.1.41",
+        "role": "MASTER"
+    }
+    
+# ------------------------------------------------------------------
+# FINGERPRINT
+# ------------------------------------------------------------------
+
+@app.get("/fingerprint")
+def fingerprint():
+
+    return {
+        "hostname": "NODE41",
+        "cpu_count": psutil.cpu_count(),
+        "memory_gb": round(
+            psutil.virtual_memory().total / 1024**3,
+            2
+        )
+    }
+    
+# ------------------------------------------------------------------
+# PASSPORT
+# ------------------------------------------------------------------
+
+@app.get("/passport")
+def passport():
+
+    return {
+        "node": "NODE41",
+        "owner": "AI-LAB",
+        "governance": "V6.2",
+        "status": "ACTIVE"
+    }
 
     
     

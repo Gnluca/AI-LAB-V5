@@ -5,29 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI LAB V6.2</title>
 	
-         <p id="clock"></p> 
+         
 		 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>🚀 AI LAB V6.2</h1>
-        <p>Primary Node: node41</p>
-    </header>
+    <h1>🚀 AI LAB V6.2</h1>
+    <p>Primary Node: node41</p>
+    <p id="clock"></p>
+</header>
 
     <main class="grid">
 
         <!-- SYSTEM STATUS -->
         <div class="card">
-            <h2>📊 System Status</h2>
+    <h2>📊 System Status</h2>
 
-            <p><strong>CPU:</strong> <span id="cpu">--</span></p>
-            <p><strong>RAM:</strong> <span id="ram">--</span></p>
-            <p><strong>Disk:</strong> <span id="disk">--</span></p>
+    <p><strong>CPU:</strong> <span id="cpu">--</span></p>
+    <p><strong>RAM:</strong> <span id="ram">--</span></p>
+    <p><strong>Disk:</strong> <span id="disk">--</span></p>
 
-            <p><strong>Status:</strong> ONLINE</p>
-        </div>
+    <p>
+        <p>
+    <strong>Status:</strong>
+    <span id="node-status">ONLINE</span>
+</p>
+
+    <p>
+        <strong>Ollama:</strong>
+        <span id="ollama">--</span>
+    </p>
+
+    <p>
+        <strong>Model:</strong>
+        <span id="model">--</span>
+    </p>
+</div>
+
+
 
         <!-- NETWORK -->
         <div class="card">
@@ -58,7 +75,7 @@
         <!-- GOVERNANCE -->
         <div class="card">
             <h2>🏛 Governance</h2>
-
+			
             <p><strong>Version:</strong> V6.2</p>
             <p><strong>Primary Node:</strong> node41</p>
             <p><strong>Registry:</strong> ACTIVE</p>
@@ -67,5 +84,18 @@
         </div>
 
         <!-- RESOURCES -->
-        <div class="card">
-            <h2>📚 Resources
+<div class="card">
+    <h2>📚 Resources</h2>
+
+    <p>AI Server Framework</p>
+    <p>HardwareAgent V1</p>
+    <p>NetworkAgent V1</p>
+    <p>DevelopmentAgent V1</p>
+</div>
+
+</main>
+
+<script src="app.js"></script>
+
+</body>
+</html>
