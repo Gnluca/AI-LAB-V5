@@ -6,7 +6,6 @@ import os
 import json
 import requests
 import sys
-import json
 from pathlib import Path
 import psutil
 
@@ -25,13 +24,6 @@ from bridge import (
     generate,
     server_status,
     list_models
-)
-
-from memory import (
-    init_memory,
-    save_memory,
-    search_memory,
-    list_memory
 )
 
 from memory import (
