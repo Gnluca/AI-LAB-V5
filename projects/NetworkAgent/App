@@ -1,0 +1,4 @@
+app = FastAPI(
+    title="AI-LAB",
+    version=LAB_VERSION
+)

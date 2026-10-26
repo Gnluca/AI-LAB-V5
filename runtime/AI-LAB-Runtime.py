@@ -1,7 +1,14 @@
 from datetime import datetime
 import requests
 import uvicorn
+import socket
 import sys
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+if sock.connect_ex(("127.0.0.1", 8000)) == 0:
+    print("[INFO] AI-LAB già avviato sulla porta 8000")
+    sys.exit(0)
 
 # Percorso del server FastAPI
 sys.path.insert(0, r"E:\AI-Server\server")

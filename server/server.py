@@ -1,17 +1,40 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
+from pydantic import BaseModel
 
 import os
 import json
-import requests
 import sys
-from pathlib import Path
+import requests
 import psutil
+
+from pathlib import Path
+
 from governance import get_governance
 from memory import audit_memory
 from inventory import scan_inventory
 from network_agent import discover_network
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+WEBUI_DIR = BASE_DIR / "webui"
+
+REGISTRY_DIR = BASE_DIR / "registry"
+MEMORY_DIR = BASE_DIR / "memory"
+KNOWLEDGE_DIR = BASE_DIR / "knowledge"
+LOG_DIR = BASE_DIR / "logs"
+
+LAB_NAME = "AI-LAB"
+LAB_VERSION = "V6.2"
+
+PRIMARY_NODE = "node41"
+PRIMARY_IP = "192.168.1.41"
+
+LEGACY_NODE = "node56"
+LEGACY_IP = "192.168.1.56"
+
+OLLAMA_MODEL = "llama3.1"
 
 mcp_path = r"E:\AI-Server\projects\MCPServer"
 REGISTRY_DIR = Path(r"E:\AI-Server\registry")
@@ -81,13 +104,18 @@ class FactoryRequest(BaseModel):
 # HOME
 # =====================================
 
-@app.get("/")
-def home():
-
+@app.get("/status")
+def status():
     return {
         "status": "online",
-        "service": "AI LAB V5",
-        "model": "llama3.1"
+        "service": "AI-LAB",
+        "version": "V6.3",
+        "runtime": "online",
+        "primary_node": "node41",
+        "secondary_node": "node56",
+        "ollama": "online",
+        "model": "llama3.1",
+        "registry": "active"
     }
     
 @app.get("/status")
@@ -1347,7 +1375,16 @@ def labmanager_events():
             "Memory audit PASS",
             "Knowledge Base 75%"
         ]
-    }    
+    }
+
+app.mount(
+    "/",
+    StaticFiles(
+        directory=str(WEBUI_DIR),
+        html=True
+    ),
+    name="webui"
+)    
     
 
 
