@@ -1,0 +1,9 @@
+{
+    "name": "DevelopmentAgent",
+    "version": "V1",
+    "status": "online",
+    "purpose": "Development management",
+    "endpoints": [
+        "/agent/development/audit"
+    ]
+}

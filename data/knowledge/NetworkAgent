@@ -1,0 +1,9 @@
+{
+    "name": "NetworkAgent",
+    "version": "V1",
+    "status": "online",
+    "purpose": "Network management",
+    "endpoints": [
+        "/agent/network/audit"
+    ]
+}

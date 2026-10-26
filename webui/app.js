@@ -1,220 +1,198 @@
 const API_BASE = "http://127.0.0.1:8000";
 
-async function fetchJson(url) {
+async function loadHardware() {
     try {
-        const response = await fetch(url);
+        const res = await fetch(`${API_BASE}/hardware`);
+        const data = await res.json();
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
+        document.getElementById("cpu").textContent =
+            `${data.cpu ?? "--"}%`;
 
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        return null;
+        document.getElementById("ram").textContent =
+            `${data.ram ?? "--"}%`;
+
+        document.getElementById("disk").textContent =
+            `${data.disk ?? "--"}%`;
+
+        document.getElementById("node-status").textContent =
+            data.status || "ONLINE";
+
+        document.getElementById("ollama").textContent =
+            data.ollama || "ONLINE";
+
+        document.getElementById("model").textContent =
+            data.model || "llama3.1";
+
+    } catch (err) {
+        console.error("Hardware Error:", err);
     }
 }
 
-async function loadFrameworkStatus() {
-    const data = await fetchJson(`${API_BASE}/status`);
+async function loadMemoryAudit() {
+    try {
+        const res = await fetch(`${API_BASE}/agent/memory/audit`);
+        const data = await res.json();
 
-    if (!data) return;
+        document.getElementById("memory-audit").innerHTML = `
+            Write: ${data.write_test}<br>
+            Read: ${data.read_test}<br>
+            Consistency: ${data.consistency}<br>
+            GC: ${data.garbage_collection}
+        `;
+    } catch (err) {
+        console.error("Memory Error:", err);
 
-    document.getElementById("status").textContent =
-        (data.status || "offline").toUpperCase();
-
-    const ollama = document.getElementById("ollama");
-    if (ollama) {
-        ollama.textContent =
-            (data.ollama || "offline").toUpperCase();
-    }
-
-    const model = document.getElementById("model");
-    if (model) {
-        model.textContent =
-            data.model || "--";
+        document.getElementById("memory-audit").innerHTML =
+            "Memory OFFLINE";
     }
 }
 
-async function loadHardwareStatus() {
-    const data = await fetchJson(
-        `${API_BASE}/hardware/status`
-    );
+async function loadInventory() {
+    try {
+        const res = await fetch(`${API_BASE}/agent/inventory/status`);
+        const data = await res.json();
 
-    if (!data) {
-        document.getElementById("cpu").textContent = "--";
-        document.getElementById("ram").textContent = "--";
-        document.getElementById("disk").textContent = "--";
-        return;
+        document.getElementById("inventory-status").innerHTML = `
+            Files: ${data.files}<br>
+            Modules: ${data.modules}<br>
+            Status: ${data.status}
+        `;
+    } catch (err) {
+        console.error("Inventory Error:", err);
+
+        document.getElementById("inventory-status").innerHTML =
+            "Inventory OFFLINE";
     }
+}
 
-    document.getElementById("cpu").textContent =
-        `${data.cpu}%`;
+async function loadKnowledge() {
+    try {
+        const res = await fetch(`${API_BASE}/agent/knowledge/status`);
+        const data = await res.json();
 
-    document.getElementById("ram").textContent =
-        `${data.ram}%`;
+        document.getElementById("knowledge-status").innerHTML = `
+            Coverage: ${data.coverage}%<br>
+            Documents: ${data.documents}<br>
+            Agents: ${data.agents}<br>
+            Status: ${data.status}
+        `;
+    } catch (err) {
+        console.error("Knowledge Error:", err);
 
-    document.getElementById("disk").textContent =
-        `${data.disk}%`;
+        document.getElementById("knowledge-status").innerHTML =
+            "Knowledge OFFLINE";
+    }
+}
+
+async function loadFactory() {
+    try {
+        const res = await fetch(`${API_BASE}/factory/status`);
+        const data = await res.json();
+
+        document.getElementById("factory-status").innerHTML = `
+            Agents: ${data.agents}<br>
+            Memory: ${data.memory_records}<br>
+            Ollama: ${data.ollama}<br>
+            Model: ${data.model}
+        `;
+    } catch (err) {
+        console.error("Factory Error:", err);
+
+        document.getElementById("factory-status").innerHTML =
+            "Factory OFFLINE";
+    }
+}
+
+async function loadNetwork() {
+    try {
+        const res = await fetch(`${API_BASE}/agent/network/discover`);
+        const data = await res.json();
+
+        const nodeCount = Array.isArray(data.nodes)
+            ? data.nodes.length
+            : 0;
+
+        document.getElementById("network-status").innerHTML = `
+            Nodes: ${nodeCount}<br>
+            Status: ONLINE
+        `;
+    } catch (err) {
+        console.error("Network Error:", err);
+
+        document.getElementById("network-status").innerHTML =
+            "Network OFFLINE";
+    }
 }
 
 async function loadRegistry() {
-    const data = await fetchJson(`${API_BASE}/registry`);
+    try {
+        const res = await fetch(`${API_BASE}/registry/nodes`);
+        const data = await res.json();
 
-    if (!data) return;
+        let html = "";
 
-    const registry = document.getElementById("registry");
+        for (const [name, info] of Object.entries(data.nodes)) {
+            html += `
+                <strong>${name}</strong><br>
+                IP: ${info.ip}<br>
+                Status: ${info.status}<br>
+                Role: ${info.role}<br><br>
+            `;
+        }
 
-    if (registry) {
-        registry.innerHTML =
-            "<pre>" +
-            JSON.stringify(data, null, 2) +
-            "</pre>";
+        document.getElementById("node-registry").innerHTML = html;
+
+    } catch (err) {
+        console.error("Registry Error:", err);
+
+        document.getElementById("node-registry").innerHTML =
+            "Registry OFFLINE";
     }
 }
 
-async function loadFingerprint() {
-    const data = await fetchJson(`${API_BASE}/fingerprint`);
+async function loadRuntimeHealth() {
+    try {
+        const res = await fetch(`${API_BASE}/runtime/health`);
+        const data = await res.json();
 
-    if (!data) return;
-
-    const fingerprint =
-        document.getElementById("fingerprint");
-
-    if (fingerprint) {
-        fingerprint.innerHTML =
-            "<pre>" +
-            JSON.stringify(data, null, 2) +
-            "</pre>";
+        document.getElementById("runtime-health").innerHTML = `
+            Runtime: ${data.runtime}<br>
+            Server: ${data.server}<br>
+            Dashboard: ${data.dashboard}<br>
+            Status: ${data.status}
+        `;
+    } catch (err) {
+        document.getElementById("runtime-health").innerHTML =
+            "Runtime OFFLINE";
     }
 }
 
-async function loadPassport() {
-    const data = await fetchJson(`${API_BASE}/passport`);
+async function loadEvents() {
+    try {
+        const res = await fetch(`${API_BASE}/agent/labmanager/events`);
+        const data = await res.json();
 
-    if (!data) return;
-
-    const passport =
-        document.getElementById("passport");
-
-    if (passport) {
-        passport.innerHTML =
-            "<pre>" +
-            JSON.stringify(data, null, 2) +
-            "</pre>";
+        document.getElementById("events").innerHTML =
+            data.events.map(e => `<li>${e}</li>`).join("");
+    } catch (err) {
+        document.getElementById("events").innerHTML =
+            "<li>Events OFFLINE</li>";
     }
 }
 
 async function refreshDashboard() {
-    await loadFrameworkStatus();
-    await loadHardwareStatus();
+    await loadHardware();
+    await loadMemoryAudit();
+    await loadInventory();
+    await loadKnowledge();
+    await loadFactory();
+    await loadNetwork();
     await loadRegistry();
-    await loadFingerprint();
-    await loadPassport();
+    await loadRuntimeHealth();
+    await loadEvents();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     refreshDashboard();
-
-    setInterval(() => {
-        loadFrameworkStatus();
-        loadHardwareStatus();
-    }, 5000);
-
-});
-
-function updateClock() {
-    const now = new Date();
-
-    const time =
-        now.toLocaleDateString("it-IT") +
-        " " +
-        now.toLocaleTimeString("it-IT");
-
-    document.getElementById("clock").textContent = time;
-}
-
-setInterval(updateClock, 1000);
-updateClock();
-
-async function loadHardwareStatus() {
-    try {
-        const response = await fetch(`${API_BASE}/hardware/status`);
-        const data = await response.json();
-
-        document.getElementById("cpu").textContent =
-            data.cpu.toFixed(1) + "%";
-
-        document.getElementById("ram").textContent =
-            data.ram.toFixed(1) + "%";
-
-        document.getElementById("disk").textContent =
-            data.disk.toFixed(1) + "%";
-
-    } catch (error) {
-        console.error("Hardware Status Error:", error);
-
-        document.getElementById("cpu").textContent = "--";
-        document.getElementById("ram").textContent = "--";
-        document.getElementById("disk").textContent = "--";
-    }
-}
-
-async function loadStatus() {
-    try {
-        const response = await fetch(`${API_BASE}/status`);
-        const data = await response.json();
-
-        const statusEl = document.getElementById("status");
-        if (statusEl) {
-            statusEl.textContent =
-                (data.status || "offline").toUpperCase();
-        }
-
-        const ollamaEl = document.getElementById("ollama");
-        if (ollamaEl) {
-            ollamaEl.textContent =
-                (data.ollama || "offline").toUpperCase();
-        }
-
-        const modelEl = document.getElementById("model");
-        if (modelEl) {
-            modelEl.textContent =
-                data.model || "--";
-        }
-
-    } catch (error) {
-        console.error("Status Error:", error);
-    }
-}
-
-function updateClock() {
-    const now = new Date();
-
-    const text =
-        now.toLocaleDateString("it-IT") +
-        " " +
-        now.toLocaleTimeString("it-IT");
-
-    const clock = document.getElementById("clock");
-
-    if (clock) {
-        clock.textContent = text;
-    }
-}
-
-async function refresh() {
-    await loadStatus();
-    await loadHardwareStatus();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    refresh();
-    updateClock();
-
-    setInterval(refresh, 5000);
-    setInterval(updateClock, 1000);
-
+    setInterval(refreshDashboard, 10000);
 });

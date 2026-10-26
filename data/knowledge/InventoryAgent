@@ -1,0 +1,9 @@
+{
+    "name": "InventoryAgent",
+    "version": "V1",
+    "status": "online",
+    "purpose": "Inventory management",
+    "endpoints": [
+        "/agent/Inventory/audit"
+    ]
+}

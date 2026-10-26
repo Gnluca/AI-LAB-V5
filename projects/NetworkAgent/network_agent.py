@@ -1,4 +1,5 @@
 import subprocess
+import requests
 
 class NetworkAgent:
 
@@ -18,3 +19,5 @@ class NetworkAgent:
             "node_41": self.ping("192.168.1.41"),
             "node_56": self.ping("192.168.1.56")
         }
+
+ 

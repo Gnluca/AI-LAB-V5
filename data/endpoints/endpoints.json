@@ -1,0 +1,13 @@
+{
+    "endpoints": [
+        "/status",
+        "/hardware",
+        "/agent/labmanager/governance",
+        "/agent/labmanager/status",
+        "/agent/labmanager/nodes",
+        "/agent/labmanager/events",
+        "/agent/memory/audit",
+        "/agent/inventory/audit",
+        "/factory/list"
+    ]
+}

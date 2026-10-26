@@ -1,0 +1,9 @@
+{
+    "name": "HardwareAgent",
+    "version": "V1",
+    "status": "online",
+    "purpose": "Hardware management",
+    "endpoints": [
+        "/agent/hardware/audit"
+    ]
+}

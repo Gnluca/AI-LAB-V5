@@ -1,0 +1,8 @@
+{
+    "primary_node": "192.168.1.41",
+    "secondary_node": "192.168.1.56",
+    "runtime": "AI-LAB Runtime",
+    "dashboard": "AI LAB V6.2",
+    "llm": "llama3.1",
+    "database": "chat.db"
+}

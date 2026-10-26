@@ -1,0 +1,9 @@
+{
+    "name": "LabManager",
+    "version": "V1",
+    "status": "online",
+    "purpose": "LabManager management",
+    "endpoints": [
+        "/agent/LabManager/audit"
+    ]
+}

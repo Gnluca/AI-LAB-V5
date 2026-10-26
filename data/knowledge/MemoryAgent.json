@@ -1,0 +1,9 @@
+{
+    "name": "MemoryAgent",
+    "version": "V1",
+    "status": "online",
+    "purpose": "Memory management",
+    "endpoints": [
+        "/agent/memory/audit"
+    ]
+}

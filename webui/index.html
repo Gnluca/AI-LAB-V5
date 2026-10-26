@@ -4,96 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI LAB V6.2</title>
-	
-         
-		 
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #10141c;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: #1b2230;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #30384a;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #5cb3ff;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #333;
+        }
+
+        strong {
+            color: #9fd3ff;
+        }
+    </style>
 </head>
+
 <body>
 
-    <header>
-    <h1>🚀 AI LAB V6.2</h1>
-    <p>Primary Node: node41</p>
-    <p id="clock"></p>
-</header>
+<h1>🚀 AI LAB V6.2</h1>
 
-    <main class="grid">
+<div class="grid">
 
-        <!-- SYSTEM STATUS -->
-        <div class="card">
-    <h2>📊 System Status</h2>
+    <!-- SYSTEM STATUS -->
+    <div class="card">
+        <h3>📊 System Status</h3>
 
-    <p><strong>CPU:</strong> <span id="cpu">--</span></p>
-    <p><strong>RAM:</strong> <span id="ram">--</span></p>
-    <p><strong>Disk:</strong> <span id="disk">--</span></p>
+        <p><strong>CPU:</strong> <span id="cpu">--</span></p>
+        <p><strong>RAM:</strong> <span id="ram">--</span></p>
+        <p><strong>Disk:</strong> <span id="disk">--</span></p>
 
-    <p>
-        <p>
-    <strong>Status:</strong>
-    <span id="node-status">ONLINE</span>
-</p>
+        <hr>
 
-    <p>
-        <strong>Ollama:</strong>
-        <span id="ollama">--</span>
-    </p>
+        <p><strong>Status:</strong> <span id="node-status">ONLINE</span></p>
+        <p><strong>Ollama:</strong> <span id="ollama">--</span></p>
+        <p><strong>Model:</strong> <span id="model">--</span></p>
+    </div>
 
-    <p>
-        <strong>Model:</strong>
-        <span id="model">--</span>
-    </p>
+    <!-- NETWORK -->
+    <div class="card">
+        <h3>🌐 Network Agent</h3>
+
+        <div id="network-status">
+            Loading...
+        </div>
+    </div>
+
+    <!-- NODE IDENTITY -->
+    <div class="card">
+        <h3>🪪 Node Identity</h3>
+
+        <p><strong>Node ID:</strong> node41</p>
+        <p><strong>Passport:</strong> AILAB-PASS-000041</p>
+        <p><strong>Role:</strong> PRIMARY</p>
+        <p><strong>Hostname:</strong> DESKTOP-CPBPB9G</p>
+        <p><strong>IP Address:</strong> 192.168.1.41</p>
+        <p><strong>Gateway:</strong> 192.168.1.33</p>
+        <p><strong>Status:</strong> ONLINE</p>
+    </div>
+
+    <!-- GOVERNANCE -->
+    <div class="card">
+        <h3>🏛 Governance</h3>
+
+        <p><strong>Version:</strong> V6.2</p>
+        <p><strong>Primary Node:</strong> node41</p>
+        <p><strong>Registry:</strong> ACTIVE</p>
+        <p><strong>Fingerprint:</strong> REGISTERED</p>
+        <p><strong>Passport Authority:</strong> ENABLED</p>
+    </div>
+
+    <!-- RUNTIME -->
+    <div class="card">
+        <h3>⚙ Runtime Health</h3>
+
+        <div id="runtime-health">
+            Loading...
+        </div>
+    </div>
+
+    <!-- REGISTRY -->
+    <div class="card">
+        <h3>🖥 Node Registry</h3>
+
+        <div id="node-registry">
+            Loading...
+        </div>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="card">
+        <h3>📋 Recent Events</h3>
+
+        <ul id="events">
+            <li>Loading...</li>
+        </ul>
+    </div>
+
+    <!-- MEMORY -->
+    <div class="card">
+        <h3>🧠 Memory Agent</h3>
+
+        <div id="memory-audit">
+            Loading...
+        </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div class="card">
+        <h3>📦 Inventory Agent</h3>
+
+        <div id="inventory-status">
+            Loading...
+        </div>
+    </div>
+
+    <!-- KNOWLEDGE -->
+    <div class="card">
+        <h3>📚 Knowledge Base</h3>
+
+        <div id="knowledge-status">
+            Loading...
+        </div>
+    </div>
+
+    <!-- FACTORY -->
+    <div class="card">
+        <h3>🏭 Factory</h3>
+
+        <div id="factory-status">
+            Loading...
+        </div>
+    </div>
+
 </div>
-
-
-
-        <!-- NETWORK -->
-        <div class="card">
-            <h2>🌐 AI LAB Network</h2>
-
-            <p>✅ Node41 - 192.168.1.41</p>
-            <p>✅ Node56 - 192.168.1.56</p>
-
-            <p><strong>Gateway:</strong> 192.168.1.33</p>
-        </div>
-
-        <!-- NODE IDENTITY -->
-        <div class="card">
-            <h2>🪪 Node Identity</h2>
-
-            <p><strong>Node ID:</strong> node41</p>
-            <p><strong>Passport:</strong> AILAB-PASS-000041</p>
-            <p><strong>Role:</strong> PRIMARY</p>
-
-            <hr>
-
-            <p><strong>Hostname:</strong> DESKTOP-CPBPB9G</p>
-            <p><strong>IP Address:</strong> 192.168.1.41</p>
-            <p><strong>Gateway:</strong> 192.168.1.33</p>
-            <p><strong>Status:</strong> ONLINE</p>
-        </div>
-
-        <!-- GOVERNANCE -->
-        <div class="card">
-            <h2>🏛 Governance</h2>
-			
-            <p><strong>Version:</strong> V6.2</p>
-            <p><strong>Primary Node:</strong> node41</p>
-            <p><strong>Registry:</strong> ACTIVE</p>
-            <p><strong>Fingerprint:</strong> REGISTERED</p>
-            <p><strong>Passport Authority:</strong> ENABLED</p>
-        </div>
-
-        <!-- RESOURCES -->
-<div class="card">
-    <h2>📚 Resources</h2>
-
-    <p>AI Server Framework</p>
-    <p>HardwareAgent V1</p>
-    <p>NetworkAgent V1</p>
-    <p>DevelopmentAgent V1</p>
-</div>
-
-</main>
 
 <script src="app.js"></script>
 

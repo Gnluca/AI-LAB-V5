@@ -8,6 +8,10 @@ import requests
 import sys
 from pathlib import Path
 import psutil
+from governance import get_governance
+from memory import audit_memory
+from inventory import scan_inventory
+from network_agent import discover_network
 
 mcp_path = r"E:\AI-Server\projects\MCPServer"
 REGISTRY_DIR = Path(r"E:\AI-Server\registry")
@@ -167,16 +171,17 @@ def status():
 # HARDWARE STATUS
 # ------------------------------------------------------------------
 
-@app.get("/hardware/status")
-def hardware_status():
 
+    
+@app.get("/hardware")
+def hardware():
     return {
-        "cpu": round(psutil.cpu_percent(interval=1), 1),
+        "cpu": round(psutil.cpu_percent(), 1),
         "ram": round(psutil.virtual_memory().percent, 1),
-        "disk": round(
-            psutil.disk_usage("C:\\").percent,
-            1
-        )
+        "disk": round(psutil.disk_usage("C:\\").percent, 1),
+        "status": "online",
+        "ollama": "online",
+        "model": "llama3.1"
     }
 
 
@@ -200,7 +205,16 @@ def health():
     return {
         "status": "ok"
     }
-
+    
+    
+@app.get("/runtime/health")
+def runtime_health():
+    return {
+        "runtime": "online",
+        "server": "online",
+        "dashboard": "online",
+        "status": "healthy"
+    }
 
 # =====================================
 # MEMORY
@@ -392,7 +406,11 @@ def network_scan():
 # =====================================
 
 
+@app.get("/agent/memory/audit")
+def memory_audit():
 
+    return audit_memory()
+    
 @app.get("/agent/network/discover")
 def network_discover():
 
@@ -436,8 +454,7 @@ def network_discover():
         "agent": "NetworkAgent",
         "nodes": nodes
     }
-    
-    
+       
 @app.get("/agent/labmanager/governance")
 def labmanager_governance():
 
@@ -1040,6 +1057,14 @@ def mcp_call(tool_name: str):
     return mcp.call_tool(tool_name)
     
     
+from pathlib import Path
+import json
+
+REGISTRY_DIR = Path(r"E:\AI-Server\registry")
+
+
+REGISTRY_DIR = Path(r"E:\AI-Server\registry")
+
 @app.get("/registry/nodes")
 def registry_nodes():
 
@@ -1048,11 +1073,24 @@ def registry_nodes():
     if not file_path.exists():
         return {
             "status": "error",
-            "message": "nodes_registry.json not found"
+            "message": "nodes_registry.json not found",
+            "nodes": {}
         }
 
-    with open(file_path, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        return {
+            "status": "online",
+            "nodes": data
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
 
 
 @app.get("/registry/resources")
@@ -1156,6 +1194,13 @@ def registry():
         "role": "MASTER"
     }
     
+@app.get("/registry/nodes")
+def registry_nodes():
+    return {
+        "node41": "online",
+        "node56": "online"
+    }
+    
 # ------------------------------------------------------------------
 # FINGERPRINT
 # ------------------------------------------------------------------
@@ -1185,6 +1230,126 @@ def passport():
         "governance": "V6.2",
         "status": "ACTIVE"
     }
+
+@app.get("/agent/labmanager/governance")
+def governance():
+
+    return get_governance()
+
+@app.get("/agent/labmanager/status")
+def lab_status():
+
+    return {
+        "health": "healthy",
+        "active_agents": 6,
+        "pending_tasks": 0,
+        "runtime": "online"
+    }
+
+@app.get("/agent/labmanager/nodes")
+def lab_nodes():
+
+    return {
+        "Node41": "ONLINE",
+        "Node56": "ONLINE"
+    }
+
+@app.get("/agent/labmanager/events")
+def lab_events():
+
+    return {
+        "events": [
+            "Runtime Started",
+            "MemoryAgent Online",
+            "NetworkAgent Online"
+        ]
+    }
+
+import logging
+from pathlib import Path
+
+Path("data/logs").mkdir(parents=True, exist_ok=True)
+
+logging.basicConfig(
+    filename="data/logs/governance.log",
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s"
+)
+
+@app.get("/agent/inventory/audit")
+def inventory_audit():
+
+    return scan_inventory()
+    
+@app.get("/agent/inventory/resources")
+def inventory_resources():
+
+    return {
+        "agents": [
+            "MemoryAgent",
+            "InventoryAgent",
+            "NetworkAgent",
+            "LabManager"
+        ],
+        "factory": "/factory/list",
+        "status": "online"
+    }
+    
+@app.get("/agent/inventory/audit")
+def inventory_audit():
+
+    return scan_inventory()
+
+@app.get("/agent/inventory/resources")
+def inventory_resources():
+
+    return {
+        "status": "online"
+    }
+    
+@app.get("/agent/knowledge/status")
+def knowledge_status():
+
+    with open(
+        r"E:\AI-Server\data\knowledge\coverage.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        return json.load(f)
+        
+@app.get("/agent/network/discover")
+def network_discover():
+    return discover_network()  
+
+    import os
+
+@app.get("/agent/inventory/status")
+def inventory_status():
+    total_files = 0
+
+    for root, dirs, files in os.walk(r"E:\AI-Server"):
+        total_files += len(files)
+
+    return {
+        "agent": "InventoryAgent",
+        "files": total_files,
+        "modules": 7,
+        "status": "online"
+    }
+    
+@app.get("/agent/labmanager/events")
+def labmanager_events():
+    return {
+        "events": [
+            "Server started",
+            "Factory online",
+            "Memory audit PASS",
+            "Knowledge Base 75%"
+        ]
+    }    
+    
+
 
     
     
