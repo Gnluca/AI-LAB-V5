@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "";
 
 async function loadHardware() {
     try {
@@ -25,6 +25,32 @@ async function loadHardware() {
 
     } catch (err) {
         console.error("Hardware Error:", err);
+    }
+}
+
+async function loadMasterLoop() {
+
+    try {
+
+        const res = await fetch(
+            `${API_BASE}/runtime/master-loop`
+        );
+
+        const data = await res.json();
+
+        document.getElementById("loop-status").textContent =
+            data.status;
+
+        document.getElementById("loop-cycles").textContent =
+            data.cycles;
+
+        document.getElementById("loop-time").textContent =
+            data.last_cycle;
+
+    } catch {
+
+        document.getElementById("loop-status")
+            .textContent = "OFFLINE";
     }
 }
 
@@ -190,6 +216,7 @@ async function refreshDashboard() {
     await loadRegistry();
     await loadRuntimeHealth();
     await loadEvents();
+	await loadMasterLoop();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

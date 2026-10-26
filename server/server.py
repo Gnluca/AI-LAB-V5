@@ -17,6 +17,7 @@ from memory import audit_memory
 from inventory import scan_inventory
 from network_agent import discover_network
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 WEBUI_DIR = BASE_DIR / "webui"
 
@@ -1376,6 +1377,18 @@ def labmanager_events():
             "Knowledge Base 75%"
         ]
     }
+    
+@app.get("/runtime/master-loop")
+def master_loop_status():
+
+    file = Path("data/loop_status.json")
+
+    if not file.exists():
+        return {"status": "offline"}
+
+    with open(file, "r") as f:
+        return json.load(f)   
+        
 
 app.mount(
     "/",
@@ -1384,8 +1397,9 @@ app.mount(
         html=True
     ),
     name="webui"
-)    
-    
+) 
+
+
 
 
     
