@@ -16,6 +16,13 @@ from governance import get_governance
 from memory import audit_memory
 from inventory import scan_inventory
 from network_agent import discover_network
+from mpc_core import mpc
+from task_queue import task_queue
+from decision_engine import decision_engine
+from goals import goal_manager
+from fastapi import HTTPException
+
+
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,16 +44,21 @@ LEGACY_IP = "192.168.1.56"
 
 OLLAMA_MODEL = "llama3.1"
 
-mcp_path = r"E:\AI-Server\projects\MCPServer"
 REGISTRY_DIR = Path(r"E:\AI-Server\registry")
 PASSPORT_DIR = Path(r"E:\AI-Server\passport")
 FINGERPRINT_DIR = Path(r"E:\AI-Server\fingerprint")
+mcp_path = r"E:\AI-Server\projects\MCP"
 
 
 if mcp_path not in sys.path:
     sys.path.append(mcp_path)
 
 from mcp_server import MCPServer
+
+# MPC CORE
+from mpc_core import mpc
+from task_queue import task_queue
+from goals import goal_manager
 
 from bridge import (
     generate,
@@ -1070,6 +1082,21 @@ def inventory_audit():
 # MCP SERVER
 # ============================================
 
+@app.get("/mpc/plan")
+def mpc_plan():
+
+    return {
+        "tasks": task_queue.tasks
+    }
+
+@app.get("/mpc/debug")
+def mpc_debug():
+
+    return {
+        "task_queue_id": id(task_queue),
+        "tasks": task_queue.tasks
+    }    
+    
 @app.get("/mcp/tools")
 def mcp_tools():
 
@@ -1085,15 +1112,51 @@ def mcp_call(tool_name: str):
 
     return mcp.call_tool(tool_name)
     
+  
+REGISTRY_DIR = Path(r"E:\AI-Server\registry")
+
+
+REGISTRY_DIR = Path(r"E:\AI-Server\registry")
+
+@app.get("/mpc/status")
+def mpc_status():
+
+    return mpc.status()
+
+@app.get("/mpc/goals")
+def mpc_goals():
+
+    return goal_manager.list_goals()
+
+@app.get("/mpc/tasks")
+def mpc_tasks():
+
+    return task_queue.all()
+
+
+@app.post("/mpc/goal")
+def create_goal(payload: dict):
+
+    goal = payload.get("goal")
+
+    if not goal:
+        raise HTTPException(
+            status_code=400,
+            detail="goal is required"
+        )
+
+    return mpc.create_goal(goal)
     
-from pathlib import Path
-import json
+@app.post("/mpc/execute")
+def execute_task():
 
-REGISTRY_DIR = Path(r"E:\AI-Server\registry")
+    return mpc.execute_next()
+    
 
-
-REGISTRY_DIR = Path(r"E:\AI-Server\registry")
-
+@app.get("/mpc/tasks")
+def mpc_tasks():
+    return task_queue.tasks
+    
 @app.get("/registry/nodes")
 def registry_nodes():
 
@@ -1387,7 +1450,15 @@ def master_loop_status():
         return {"status": "offline"}
 
     with open(file, "r") as f:
-        return json.load(f)   
+        return json.load(f)
+
+@app.get("/api/status")
+def api_status():
+    return {
+        "status": "online",
+        "version": "6.4",
+        "runtime": "online"
+    }        
         
 
 app.mount(
@@ -1398,6 +1469,8 @@ app.mount(
     ),
     name="webui"
 ) 
+
+
 
 
 

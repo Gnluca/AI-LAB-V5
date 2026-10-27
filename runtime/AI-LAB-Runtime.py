@@ -3,6 +3,24 @@ import requests
 import uvicorn
 import socket
 import sys
+import os
+
+ROOT = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        ".."
+    )
+)
+
+MCP = os.path.join(
+    ROOT,
+    "projects",
+    "MCP"
+)
+
+for p in [ROOT, MCP]:
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
