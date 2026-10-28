@@ -21,6 +21,7 @@ from task_queue import task_queue
 from decision_engine import decision_engine
 from goals import goal_manager
 from fastapi import HTTPException
+from agenda.agenda_engine import agenda
 
 
 
@@ -140,7 +141,29 @@ def status():
         "cpu": psutil.cpu_percent(interval=1),
         "ram": psutil.virtual_memory().percent,
         "disk": psutil.disk_usage("C:\\").percent
-    }    
+    }
+
+@app.get("/agenda")
+def agenda_list():
+
+    return agenda.load()
+
+@app.post("/agenda/run")
+def run_agenda():
+
+    items = agenda.load()
+
+    created = []
+
+    for item in items:
+
+        goal = mpc.create_goal(
+            item["goal"]
+        )
+
+        created.append(goal)
+
+    return created
 
 
 # =====================================
@@ -205,7 +228,7 @@ def status():
         "status": "online",
         "ollama": ollama_status,
         "model": model_name
-    }
+    }    
 
 
 # ------------------------------------------------------------------
@@ -1156,6 +1179,14 @@ def execute_task():
 @app.get("/mpc/tasks")
 def mpc_tasks():
     return task_queue.tasks
+    
+@app.get("/mpc/debug")
+def mpc_debug():
+
+    return {
+        "queue_id": id(task_queue),
+        "tasks": task_queue.tasks
+    }    
     
 @app.get("/registry/nodes")
 def registry_nodes():

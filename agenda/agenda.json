@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "time": "08:00",
+    "goal": "Audit Sistema",
+    "status": "pending"
+  },
+  {
+    "id": 2,
+    "time": "12:00",
+    "goal": "Verifica Node56",
+    "status": "pending"
+  },
+  {
+    "id": 3,
+    "time": "18:00",
+    "goal": "Aggiorna Knowledge",
+    "status": "pending"
+  }
+]

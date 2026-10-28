@@ -1,0 +1,12 @@
+{
+  "node41": {
+    "ip": "192.168.1.41",
+    "role": "coordinator",
+    "status": "online"
+  },
+  "node56": {
+    "ip": "192.168.1.56",
+    "role": "worker",
+    "status": "online"
+  }
+}

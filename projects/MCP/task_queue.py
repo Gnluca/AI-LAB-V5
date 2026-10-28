@@ -4,7 +4,6 @@ class TaskQueue:
         self.tasks = []
 
     def enqueue(self, task):
-
         self.tasks.append(task)
 
     def dequeue(self):
@@ -15,11 +14,10 @@ class TaskQueue:
         return None
 
     def size(self):
-
         return len(self.tasks)
 
     def all(self):
-
         return self.tasks
+
 
 task_queue = TaskQueue()
