@@ -1,113 +1,53 @@
-from datetime import datetime
-import requests
-import uvicorn
+"""AI-LAB runtime entry point."""
+from __future__ import annotations
+
+import os
 import socket
 import sys
-import os
+from datetime import datetime, timezone
+from pathlib import Path
 
-ROOT = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__),
-        ".."
-    )
-)
+import requests
+import uvicorn
 
-MCP = os.path.join(
-    ROOT,
-    "projects",
-    "MCP"
-)
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-for p in [ROOT, MCP]:
-    if p not in sys.path:
-        sys.path.insert(0, p)
-
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-if sock.connect_ex(("127.0.0.1", 8000)) == 0:
-    print("[INFO] AI-LAB già avviato sulla porta 8000")
-    sys.exit(0)
-
-# Percorso del server FastAPI
-sys.path.insert(0, r"E:\AI-Server\server")
-
-# Import applicazione FastAPI
-from server import app
-
-LAB_STATUS = {
-    "runtime": False,
-    "ollama": False
-}
+from server.app import app  # noqa: E402
 
 
-def banner():
-
-    print("=" * 60)
-    print("AI-LAB RUNTIME v6.3")
-    print("=" * 60)
-    print(f"Boot Time : {datetime.now()}")
-    print("=" * 60)
+def port_in_use(host: str, port: int) -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.settimeout(0.5)
+        return sock.connect_ex((host, port)) == 0
 
 
-def check_ollama():
-
+def check_ollama() -> bool:
+    url = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
     try:
-
-        r = requests.get(
-            "http://localhost:11434/api/tags",
-            timeout=3
-        )
-
-        if r.status_code == 200:
-
-            LAB_STATUS["ollama"] = True
-
-            print("[OK] Ollama")
-
-        else:
-
-            print("[WARN] Ollama")
-
-    except Exception as e:
-
-        print(f"[WARN] Ollama : {e}")
+        return requests.get(f"{url}/api/tags", timeout=3).status_code == 200
+    except requests.RequestException:
+        return False
 
 
-def startup_checks():
+def startup_checks() -> dict:
+    state = {"runtime": True, "ollama": check_ollama(), "started_at": datetime.now(timezone.utc).isoformat()}
+    print(f"[OK] Runtime | Ollama: {'online' if state['ollama'] else 'offline'}")
+    return state
 
-    LAB_STATUS["runtime"] = True
 
-    print("[OK] Runtime")
-
-    check_ollama()
-
-    print()
-
-    if all(LAB_STATUS.values()):
-
-        print("[ONLINE] AI-LAB READY")
-
-    else:
-
-        print("[DEGRADED] AI-LAB")
+def main() -> int:
+    host = os.getenv("AI_LAB_HOST", "0.0.0.0")
+    port = int(os.getenv("AI_LAB_PORT", "8000"))
+    if port_in_use("127.0.0.1", port):
+        print(f"[INFO] AI-LAB già avviato sulla porta {port}")
+        return 0
+    print(f"AI-LAB runtime avviato: {datetime.now(timezone.utc).isoformat()}")
+    startup_checks()
+    uvicorn.run(app, host=host, port=port)
+    return 0
 
 
 if __name__ == "__main__":
-
-    banner()
-
-    startup_checks()
-
-    print()
-    print("Starting AI-LAB API...")
-    print()
-
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8000
-    )
-     
-hiddenimports=[
-    "sqlite3"
-]     
+    raise SystemExit(main())
