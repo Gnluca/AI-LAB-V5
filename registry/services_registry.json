@@ -1,0 +1,14 @@
+[
+    {
+        "name":  "Schedule",
+        "status":  "Running"
+    },
+    {
+        "name":  "EventLog",
+        "status":  "Running"
+    },
+    {
+        "name":  "WinRM",
+        "status":  "Stopped"
+    }
+]

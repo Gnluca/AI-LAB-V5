@@ -1,34 +1,48 @@
 class DecisionEngine:
 
-    TASK_ROUTING = {
+    def __init__(self):
 
-        "memory_audit": {
-            "agent": "MemoryAgent",
-            "node": "node41"
-        },
+        self.MAP = {
 
-        "network_scan": {
-            "agent": "NetworkAgent",
-            "node": "node41"
-        },
+            # MEMORY
 
-        "hardware_check": {
-            "agent": "HardwareAgent",
-            "node": "node41"
-        },
+            "memory_audit": "MemoryAgent",
+            "memory_report": "MemoryAgent",
 
-        "knowledge_rebuild": {
-            "agent": "KnowledgeAgent",
-            "node": "node56"
-        },
+            # NETWORK
 
-        "llm_inference": {
-            "agent": "OllamaAgent",
-            "node": "node56"
-        }
-    }
+            "network_scan": "NetworkAgent",
+            "network_report": "NetworkAgent",
 
-    def select(self, task):
-        return self.TASK_ROUTING.get(task)
+            # HARDWARE
 
-decision_engine = DecisionEngine()
+            "hardware_check": "HardwareAgent",
+            "hardware_report": "HardwareAgent",
+
+            # KNOWLEDGE
+
+            "knowledge_rebuild": "KnowledgeAgent",
+            "knowledge_report": "KnowledgeAgent",
+
+            # REGISTRY
+
+            "registry_update": "RegistryAgent",
+            "passport_refresh": "RegistryAgent",
+
+            # SERVICES
+
+            "service_check": "ServiceAgent",
+            "service_report": "ServiceAgent",
+
+            # NODE
+
+            "node_sync": "SyncAgent",
+
+            "memory_report": "MemoryAgent",
+            "network_report": "NetworkAgent",
+            "hardware_report": "HardwareAgent",
+            "service_report": "ServiceAgent",
+
+    return self.MAP.get(task, "UnknownAgent")
+
+         

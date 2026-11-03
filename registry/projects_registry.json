@@ -1,0 +1,69 @@
+{
+    "generated":  {
+                      "value":  "\/Date(1793668927214)\/",
+                      "DisplayHint":  2,
+                      "DateTime":  "martedì 3 novembre 2026 02:22:07"
+                  },
+    "projects":  [
+                     {
+                         "path":  "E:\\AI-Server\\projects\\Data",
+                         "node":  "node56",
+                         "name":  "Data",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\DevelopmentAgent",
+                         "node":  "node56",
+                         "name":  "DevelopmentAgent",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\HardwareAgent",
+                         "node":  "node56",
+                         "name":  "HardwareAgent",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\MCP",
+                         "node":  "node56",
+                         "name":  "MCP",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\MemoryAgentV1",
+                         "node":  "node56",
+                         "name":  "MemoryAgentV1",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\NetworkAgent",
+                         "node":  "node56",
+                         "name":  "NetworkAgent",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\NIM-Lab",
+                         "node":  "node56",
+                         "name":  "NIM-Lab",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Server\\projects\\TestAgent",
+                         "node":  "node56",
+                         "name":  "TestAgent",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\AI-Learning-Studio",
+                         "node":  "node56",
+                         "name":  "AI-Learning-Studio",
+                         "status":  "detected"
+                     },
+                     {
+                         "path":  "E:\\SocialAI",
+                         "node":  "node56",
+                         "name":  "SocialAI",
+                         "status":  "detected"
+                     }
+                 ]
+}

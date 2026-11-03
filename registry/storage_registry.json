@@ -1,0 +1,17 @@
+[
+    {
+        "used_gb":  348.23,
+        "drive":  "C",
+        "free_gb":  582.19
+    },
+    {
+        "used_gb":  1.48,
+        "drive":  "E",
+        "free_gb":  930.03
+    },
+    {
+        "used_gb":  55.85,
+        "drive":  "F",
+        "free_gb":  177.04
+    }
+]

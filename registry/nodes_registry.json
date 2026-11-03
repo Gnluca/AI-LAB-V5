@@ -1,17 +1,12 @@
 {
-  "node41": {
-    "ip": "192.168.1.41",
-    "status": "online",
-    "role": "primary"
-  },
-  "node56": {
-    "node_id": "node56",
-    "hostname": "NODE56",
-    "ip": "192.168.1.56",
-    "role": "secondary",
-    "status": "online",
-    "governed": true
-  }
+    "node56":  {
+                   "status":  "offline",
+                   "ip":  "192.168.1.56",
+                   "role":  "worker"
+               },
+    "node41":  {
+                   "status":  "online",
+                   "ip":  "192.168.1.41",
+                   "role":  "primary"
+               }
 }
-
- 

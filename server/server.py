@@ -22,7 +22,7 @@ from decision_engine import decision_engine
 from goals import goal_manager
 from fastapi import HTTPException
 from agenda.agenda_engine import agenda
-
+from fastapi import Body
 
 
 
@@ -1324,6 +1324,127 @@ def registry_nodes():
         "node56": "online"
     }
     
+@app.get("/registry/projects")
+def registry_projects():
+
+    file = REGISTRY_DIR / "projects_registry.json"
+
+    if not file.exists():
+        return {
+            "status": "error",
+            "message": "projects registry not found"
+        }
+ 
+@app.get("/registry/services")
+def registry_services():
+
+    file = REGISTRY_DIR / "services_registry.json"
+
+    if not file.exists():
+        return {
+            "status": "error",
+            "message": "services registry not found"
+        }
+
+    with open(file, "r", encoding="utf-8") as f:
+        return json.load(f) 
+
+    with open(file, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+@app.get("/registry/storage")
+def registry_storage():
+
+    file = REGISTRY_DIR / "storage_registry.json"
+
+    if not file.exists():
+        return {
+            "status": "error",
+            "message": "storage registry not found"
+        }
+
+    with open(file, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+@app.get("/registry/passports")
+def registry_passports():
+
+    passport_dir = REGISTRY_DIR / "passports"
+
+    results = []
+
+    if not passport_dir.exists():
+        return {
+            "status": "empty",
+            "passports": []
+        }
+
+    for file in passport_dir.glob("*_passport.json"):
+
+        try:
+
+            with open(file, "r", encoding="utf-8") as f:
+
+                results.append(
+                    json.load(f)
+                )
+
+        except Exception:
+            pass
+
+    return {
+        "count": len(results),
+        "passports": results
+    } 
+
+@app.get("/registry/summary")
+def registry_summary():
+
+    import os
+
+    projects = REGISTRY_DIR / "projects_registry.json"
+    models = REGISTRY_DIR / "models_registry.json"
+    services = REGISTRY_DIR / "services_registry.json"
+    storage = REGISTRY_DIR / "storage_registry.json"
+    health = REGISTRY_DIR / "health_registry.json"
+
+    return {
+        "registry": "online",
+        "projects": projects.exists(),
+        "models": models.exists(),
+        "services": services.exists(),
+        "storage": storage.exists(),
+        "health": health.exists()
+    }    
+
+@app.get("/registry/health")
+def registry_health():
+
+    file = REGISTRY_DIR / "health_registry.json"
+
+    if not file.exists():
+        return {
+            "status": "error",
+            "message": "health registry not found"
+        }
+
+    with open(file, "r", encoding="utf-8") as f:
+        return json.load(f)        
+
+@app.get("/registry/models")
+def registry_models():
+
+    file = REGISTRY_DIR / "models_registry.json"
+
+    if not file.exists():
+        return {
+            "status": "error",
+            "message": "models registry not found"
+        }
+
+    with open(file, "r", encoding="utf-8") as f:
+        return json.load(f)        
+    
 # ------------------------------------------------------------------
 # FINGERPRINT
 # ------------------------------------------------------------------
@@ -1489,7 +1610,21 @@ def api_status():
         "status": "online",
         "version": "6.4",
         "runtime": "online"
-    }        
+    }
+
+
+@app.post("/worker/execute")
+def worker_execute(payload: dict = Body(...)):
+
+    task = payload.get("task")
+
+    print(f"[WORKER] {task}")
+
+    return {
+        "status": "completed",
+        "task": task,
+        "node": "node56"
+    }    
         
 
 app.mount(
@@ -1500,6 +1635,7 @@ app.mount(
     ),
     name="webui"
 ) 
+
 
 
 

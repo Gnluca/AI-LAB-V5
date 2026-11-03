@@ -1,7 +1,11 @@
 import requests
 
-from decision_engine import decision_engine
-from task_queue import task_queue
+try:
+    from .decision_engine import decision_engine
+    from .task_queue import task_queue
+except ImportError:
+    from decision_engine import decision_engine
+    from task_queue import task_queue
 
 
 class Executor:
@@ -17,6 +21,15 @@ class Executor:
 
         agent = decision_engine.select(task)
 
+        if agent == "UnknownAgent":
+
+            return {
+                "task": task,
+                "agent": agent,
+                "node": "node41",
+                "status": "unknown_task"
+            }
+
         #
         # TASK REMOTO
         #
@@ -26,13 +39,19 @@ class Executor:
             try:
 
                 print(f"[REMOTE] {task}")
-                print("[NODE56] worker execute")
+
+                url = "http://127.0.0.1:8000/worker/execute"
+
+                print(f"[REMOTE URL] {url}")
 
                 response = requests.post(
-                    "http://192.168.1.56:8000/worker/execute",
+                    url,
                     json={"task": task},
                     timeout=30
                 )
+
+                print("STATUS CODE:", response.status_code)
+                print("RESPONSE:", response.text)
 
                 worker_result = response.json()
 
@@ -49,7 +68,6 @@ class Executor:
 
             except Exception as e:
 
-                # NON perdere il task
                 task_queue.enqueue(task)
 
                 return {

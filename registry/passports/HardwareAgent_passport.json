@@ -1,0 +1,13 @@
+{
+    "name":  "HardwareAgent",
+    "owner":  "AI-LAB",
+    "registered":  {
+                       "value":  "\/Date(1793668927231)\/",
+                       "DisplayHint":  2,
+                       "DateTime":  "martedì 3 novembre 2026 02:22:07"
+                   },
+    "node":  "node56",
+    "path":  "E:\\AI-Server\\projects\\HardwareAgent",
+    "type":  "application",
+    "status":  "online"
+}

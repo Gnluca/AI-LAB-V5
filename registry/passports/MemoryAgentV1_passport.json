@@ -1,0 +1,13 @@
+{
+    "name":  "MemoryAgentV1",
+    "owner":  "AI-LAB",
+    "registered":  {
+                       "value":  "\/Date(1793668927233)\/",
+                       "DisplayHint":  2,
+                       "DateTime":  "martedì 3 novembre 2026 02:22:07"
+                   },
+    "node":  "node56",
+    "path":  "E:\\AI-Server\\projects\\MemoryAgentV1",
+    "type":  "application",
+    "status":  "online"
+}

@@ -1,0 +1,14 @@
+{
+    "llama3.1:latest":  {
+                            "status":  "installed"
+                        },
+    "phi3:latest":  {
+                        "status":  "installed"
+                    },
+    "nimble:latest":  {
+                          "status":  "installed"
+                      },
+    "gemma4:31b":  {
+                       "status":  "installed"
+                   }
+}

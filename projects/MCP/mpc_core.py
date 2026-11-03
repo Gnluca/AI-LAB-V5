@@ -1,7 +1,13 @@
-from goals import goal_manager
-from planner import planner
-from task_queue import task_queue
-from executor import executor
+try:
+    from .goals import goal_manager
+    from .planner import planner
+    from .task_queue import task_queue
+    from .executor import executor
+except ImportError:
+    from goals import goal_manager
+    from planner import planner
+    from task_queue import task_queue
+    from executor import executor
 
 class MPCCore:
 

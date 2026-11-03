@@ -1,0 +1,45 @@
+{
+    "timestamp": "2026-11-03T02:06:49.694189",
+    "observation": {
+        "timestamp": "2026-11-03T02:06:46.517038",
+        "node41": "online",
+        "node56": "online",
+        "cpu": {
+            "resource": "cpu",
+            "usage": 6.9,
+            "status": "healthy"
+        },
+        "memory": {
+            "resource": "ram",
+            "usage": 36.5,
+            "total_gb": 31.92,
+            "available_gb": 20.29
+        },
+        "ollama": {
+            "resource": "ollama",
+            "models": [
+                "nimble:latest",
+                "llama3.1:latest",
+                "phi3:latest",
+                "gemma4:31b"
+            ],
+            "status": "online"
+        },
+        "alerts": []
+    },
+    "context": {
+        "status": "healthy",
+        "problems": [],
+        "recommendations": [
+            "Sistema stabile"
+        ]
+    },
+    "reasoning": "{\n  \"goals\": [\n    {\n      \"goal\": \"Eseguire verifica di sistema\",\n      \"priority\": 10\n    }\n  ]\n}",
+    "goals": [
+        {
+            "goal": "Eseguire verifica di sistema",
+            "priority": 10,
+            "status": "pending"
+        }
+    ]
+}
