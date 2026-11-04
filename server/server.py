@@ -1645,19 +1645,6 @@ def ai_lab():
     )
 
 
-@app.get("/runtime/cognitive-report")
-def runtime_cognitive_report():
-
-    file = BASE_DIR / "data" / "cognitive_report.json"
-
-    if file.exists():
-        with open(file, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-    return {
-        "status": "missing"
-    }
-
 @app.get("/runtime/feedback")
 def runtime_feedback():
 
@@ -1671,6 +1658,61 @@ def runtime_feedback():
         "status": "missing",
         "file": str(file)
     }
+
+@app.get("/runtime/cognitive-report")
+def runtime_cognitive_report():
+
+    print("COGNITIVE REPORT ENDPOINT CALLED")
+
+    file = BASE_DIR / "data" / "cognitive_report.json"
+
+    print(file)
+
+    if file.exists():
+        with open(file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        print(type(data))
+
+        return data
+
+    return {
+        "status": "missing"
+    }
+
+@app.get("/")
+def root():
+    return FileResponse(
+        WEBUI_DIR / "index.html"
+    )
+
+@app.get("/system/health")
+def system_health():
+
+    file = BASE_DIR / "data" / "health_status.json"
+
+    if file.exists():
+
+        with open(file, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    return {
+        "status": "missing"
+    }
+
+@app.get("/")
+def root():
+    return FileResponse(WEBUI_DIR / "index.html")
+
+from fastapi.staticfiles import StaticFiles
+
+WEBUI_DIR = BASE_DIR / "webui"
+
+app.mount(
+    "/webui",
+    StaticFiles(directory=WEBUI_DIR),
+    name="webui"
+)
 
 
 

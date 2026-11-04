@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-04T00:38:56.734602",
+  "timestamp": "2026-11-04T03:06:41.000883",
   "observation": {
-    "timestamp": "2026-11-04T00:38:52.079031+00:00",
+    "timestamp": "2026-11-04T03:06:36.624534+00:00",
     "node41": "online",
     "node56": "online",
     "node_details": {
@@ -27,9 +27,9 @@
     },
     "memory": {
       "resource": "ram",
-      "usage": 38.5,
+      "usage": 35.0,
       "total_gb": 31.92,
-      "available_gb": 19.65
+      "available_gb": 20.74
     },
     "ollama": {
       "resource": "ollama",
@@ -50,7 +50,7 @@
       "Sistema stabile"
     ]
   },
-  "reasoning": "{\n  \"goals\": [\n    {\n      \"goal\": \"Audit Laboratorio\",\n      \"priority\": 5\n    }\n  ]\n}",
+  "reasoning": "{\"goals\":[{\"goal\":\"Audit Laboratorio\",\"priority\":5}]}",
   "goals": [
     {
       "goal": "Audit Laboratorio",

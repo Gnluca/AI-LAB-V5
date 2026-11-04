@@ -1,181 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI LAB V6.2</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #10141c;
-            color: white;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 15px;
-        }
-
-        .card {
-            background: #1b2230;
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid #30384a;
-        }
-
-        .card h3 {
-            margin-top: 0;
-            color: #5cb3ff;
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid #333;
-        }
-
-        strong {
-            color: #9fd3ff;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <title>AI-LAB V7 · Command Center</title>
+  <link rel="stylesheet" href="/webui/style.css">
 </head>
-
 <body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="AI-LAB home">
+        <span class="brand-mark">✳</span><span><b>AI-LAB</b><small>OPERATIONS CENTER</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#overview"><span>▦</span> Overview</a>
+      <a class="nav-item" href="#infrastructure"><span>⌘</span> Infrastructure</a>
+      <a class="nav-item" href="#cognition"><span>◈</span> Cognitive Core</a>
+      <a class="nav-item" href="#activity"><span>≋</span> Activity & feedback</a>
+      <div class="sidebar-bottom">
+        <div class="connection-card"><span class="pulse-dot"></span><div><b>Local runtime</b><small id="sidebar-connection">Connecting…</small></div></div>
+        <small class="muted">AI-LAB CONTROL PLANE <span id="app-version">V7</span></small>
+      </div>
+    </aside>
 
-<h1>🚀 AI LAB V6.2</h1>
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">SYSTEM OVERVIEW / NODE41</div><h1>Command Center</h1><p class="subheading">Panoramica operativa del tuo ambiente AI locale.</p></div>
+        <div class="top-actions"><div class="live-pill"><span class="pulse-dot"></span> LIVE <span id="last-update">In attesa dati</span></div><button id="refresh-btn" class="icon-button" title="Aggiorna ora" aria-label="Aggiorna ora">↻</button></div>
+      </header>
 
-<div class="grid">
+      <section class="metrics-grid" id="overview">
+        <article class="panel metric-panel">
+          <div class="panel-head"><span class="metric-label">CPU UTILIZATION</span><span class="metric-icon">⌁</span></div>
+          <div class="gauge-wrap"><div class="gauge" id="cpu-gauge" style="--value:0"><div class="gauge-inner"><strong id="cpu-value">—</strong><small>% UTIL</small></div></div></div>
+          <div class="metric-foot"><span id="cpu-state" class="state-text">In attesa</span><span class="muted">Host Node41</span></div>
+        </article>
+        <article class="panel metric-panel">
+          <div class="panel-head"><span class="metric-label">MEMORY UTILIZATION</span><span class="metric-icon">▤</span></div>
+          <div class="gauge-wrap"><div class="gauge memory" id="ram-gauge" style="--value:0"><div class="gauge-inner"><strong id="ram-value">—</strong><small>% USED</small></div></div></div>
+          <div class="metric-foot"><span id="ram-detail" class="state-text">RAM di sistema</span><span class="muted" id="ram-total">—</span></div>
+        </article>
+        <article class="panel status-panel">
+          <div class="panel-head"><span class="metric-label">NODE41 · PRIMARY</span><span class="tag">CORE</span></div>
+          <div class="status-main"><span class="status-orb" id="node41-orb"></span><div><strong id="node41-status">Unknown</strong><small>Coordinamento principale</small></div></div>
+          <div class="status-meta"><span>API / Runtime</span><b id="runtime-status">—</b></div>
+        </article>
+        <article class="panel status-panel">
+          <div class="panel-head"><span class="metric-label">NODE56 · WORKER</span><span class="tag">WORKER</span></div>
+          <div class="status-main"><span class="status-orb" id="node56-orb"></span><div><strong id="node56-status">Unknown</strong><small>Nodo secondario</small></div></div>
+          <div class="status-meta"><span>Worker endpoint</span><b id="node56-detail">—</b></div>
+        </article>
+      </section>
 
-    <!-- SYSTEM STATUS -->
-    <div class="card">
-        <h3>📊 System Status</h3>
+      <section class="content-grid" id="infrastructure">
+        <article class="panel wide-panel">
+          <div class="section-heading"><div><div class="eyebrow">INFRASTRUCTURE</div><h2>Service topology</h2></div><span class="subtle-badge"><span class="pulse-dot"></span> Live state</span></div>
+          <div class="topology">
+            <div class="topo-node primary"><div class="topo-symbol">⌂</div><div><b>Node41</b><small>Primary · Orchestrator</small></div><span class="mini-status" id="topo-node41">—</span></div>
+            <div class="topo-link"><span></span><small>LAN / worker link</small></div>
+            <div class="topo-node"><div class="topo-symbol">▣</div><div><b>Node56</b><small>Secondary · Worker</small></div><span class="mini-status" id="topo-node56">—</span></div>
+          </div>
+          <div class="service-strip">
+            <div class="service-item"><span class="service-dot" id="ollama-dot"></span><div><b>Ollama</b><small id="ollama-status">Unknown</small></div></div>
+            <div class="service-item"><span class="service-dot good"></span><div><b>FastAPI</b><small id="api-status">Connected</small></div></div>
+            <div class="service-item"><span class="service-dot" id="registry-dot"></span><div><b>Registry</b><small id="registry-status">Unknown</small></div></div>
+          </div>
+          <div class="models-block"><div class="block-label">AVAILABLE MODELS</div><div id="model-list" class="chip-list"><span class="muted">In attesa dei modelli…</span></div></div>
+        </article>
 
-        <p><strong>CPU:</strong> <span id="cpu">--</span></p>
-        <p><strong>RAM:</strong> <span id="ram">--</span></p>
-        <p><strong>Disk:</strong> <span id="disk">--</span></p>
+        <article class="panel alerts-panel">
+          <div class="section-heading"><div><div class="eyebrow">ATTENTION REQUIRED</div><h2>Alerts</h2></div><span class="count-badge" id="alert-count">0</span></div>
+          <div id="alerts-list" class="alerts-list"><div class="empty-state">Nessun alert disponibile</div></div>
+        </article>
+      </section>
 
-        <hr>
+      <section class="content-grid" id="cognition">
+        <article class="panel wide-panel">
+          <div class="section-heading"><div><div class="eyebrow">COGNITIVE CORE</div><h2>Goals & execution</h2></div><span id="cognitive-health" class="health-badge">Waiting</span></div>
+          <div class="goal-summary"><div><strong id="goal-count">0</strong><small>GOALS REPORTED</small></div><div><strong id="pending-count">0</strong><small>PENDING</small></div><div><strong id="recommendation-count">0</strong><small>RECOMMENDATIONS</small></div></div>
+          <div class="block-label">CURRENT GOAL QUEUE</div><div id="goals-list" class="goals-list"><div class="empty-state">Nessun goal nel report</div></div>
+          <div class="context-note" id="context-note">Il Cognitive Core non ha ancora fornito un report.</div>
+        </article>
+        <article class="panel runtime-panel">
+          <div class="section-heading"><div><div class="eyebrow">RUNTIME MONITOR</div><h2>Health snapshot</h2></div><span class="health-badge" id="runtime-health">—</span></div>
+          <div class="health-row"><span>CPU</span><div class="bar"><i id="cpu-bar"></i></div><b id="cpu-inline">—</b></div>
+          <div class="health-row"><span>Memory</span><div class="bar"><i id="ram-bar"></i></div><b id="ram-inline">—</b></div>
+          <div class="health-row"><span>Node41</span><div class="bar status-bar"><i id="node41-bar"></i></div><b id="node41-inline">—</b></div>
+          <div class="health-row"><span>Node56</span><div class="bar status-bar"><i id="node56-bar"></i></div><b id="node56-inline">—</b></div>
+          <div class="runtime-foot"><span>Report timestamp</span><b id="report-time">—</b></div>
+        </article>
+      </section>
 
-        <p><strong>Status:</strong> <span id="node-status">ONLINE</span></p>
-        <p><strong>Ollama:</strong> <span id="ollama">--</span></p>
-        <p><strong>Model:</strong> <span id="model">--</span></p>
-    </div>
-
-    <!-- NETWORK -->
-    <div class="card">
-        <h3>🌐 Network Agent</h3>
-
-        <div id="network-status">
-            Loading...
-        </div>
-    </div>
-
-    <!-- NODE IDENTITY -->
-	
-	<div class="card">
-    <h3>🧠 Master Loop</h3>
-
-    <p>Status: <span id="loop-status">Loading...</span></p>
-    <p>Cycles: <span id="loop-cycles">Loading...</span></p>
-    <p>Last Cycle: <span id="loop-time">Loading...</span></p>
-</div>
-
-    <div class="card">
-        <h3>🪪 Node Identity</h3>
-
-        <p><strong>Node ID:</strong> node41</p>
-        <p><strong>Passport:</strong> AILAB-PASS-000041</p>
-        <p><strong>Role:</strong> PRIMARY</p>
-        <p><strong>Hostname:</strong> DESKTOP-CPBPB9G</p>
-        <p><strong>IP Address:</strong> 192.168.1.41</p>
-        <p><strong>Gateway:</strong> 192.168.1.33</p>
-        <p><strong>Status:</strong> ONLINE</p>
-    </div>
-
-    <!-- GOVERNANCE -->
-    <div class="card">
-        <h3>🏛 Governance</h3>
-
-        <p><strong>Version:</strong> V6.2</p>
-        <p><strong>Primary Node:</strong> node41</p>
-        <p><strong>Registry:</strong> ACTIVE</p>
-        <p><strong>Fingerprint:</strong> REGISTERED</p>
-        <p><strong>Passport Authority:</strong> ENABLED</p>
-    </div>
-
-    <!-- RUNTIME -->
-    <div class="card">
-        <h3>⚙ Runtime Health</h3>
-
-        <div id="runtime-health">
-            Loading...
-        </div>
-    </div>
-
-    <!-- REGISTRY -->
-    <div class="card">
-        <h3>🖥 Node Registry</h3>
-
-        <div id="node-registry">
-            Loading...
-        </div>
-    </div>
-
-    <!-- EVENTS -->
-    <div class="card">
-        <h3>📋 Recent Events</h3>
-
-        <ul id="events">
-            <li>Loading...</li>
-        </ul>
-    </div>
-
-    <!-- MEMORY -->
-    <div class="card">
-        <h3>🧠 Memory Agent</h3>
-
-        <div id="memory-audit">
-            Loading...
-        </div>
-    </div>
-
-    <!-- INVENTORY -->
-    <div class="card">
-        <h3>📦 Inventory Agent</h3>
-
-        <div id="inventory-status">
-            Loading...
-        </div>
-    </div>
-
-    <!-- KNOWLEDGE -->
-    <div class="card">
-        <h3>📚 Knowledge Base</h3>
-
-        <div id="knowledge-status">
-            Loading...
-        </div>
-    </div>
-
-    <!-- FACTORY -->
-    <div class="card">
-        <h3>🏭 Factory</h3>
-
-        <div id="factory-status">
-            Loading...
-        </div>
-    </div>
-
-</div>
-
-<script src="app.js"></script>
-
+      <section class="panel activity-panel" id="activity">
+        <div class="section-heading"><div><div class="eyebrow">SYSTEM ACTIVITY</div><h2>Feedback timeline</h2></div><span class="muted" id="feedback-total">0 events</span></div>
+        <div id="feedback-list" class="timeline"><div class="empty-state">Nessun feedback disponibile</div></div>
+      </section>
+      <footer><span>AI-LAB V7 COMMAND CENTER</span><span>Polling interval: 5s · Read-only monitoring</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/webui/app.js" defer></script>
 </body>
 </html>
