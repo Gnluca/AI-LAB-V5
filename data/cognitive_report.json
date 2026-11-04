@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-04T00:33:50.853581",
+  "timestamp": "2026-11-04T00:38:56.734602",
   "observation": {
-    "timestamp": "2026-11-04T00:33:46.799891+00:00",
+    "timestamp": "2026-11-04T00:38:52.079031+00:00",
     "node41": "online",
     "node56": "online",
     "node_details": {
@@ -22,14 +22,14 @@
     },
     "cpu": {
       "resource": "cpu",
-      "usage": 13.0,
+      "usage": 13.9,
       "status": "healthy"
     },
     "memory": {
       "resource": "ram",
-      "usage": 38.2,
+      "usage": 38.5,
       "total_gb": 31.92,
-      "available_gb": 19.74
+      "available_gb": 19.65
     },
     "ollama": {
       "resource": "ollama",
@@ -50,7 +50,7 @@
       "Sistema stabile"
     ]
   },
-  "reasoning": "{\"goals\":[{\"goal\":\"Audit Laboratorio\",\"priority\":5}]}",
+  "reasoning": "{\n  \"goals\": [\n    {\n      \"goal\": \"Audit Laboratorio\",\n      \"priority\": 5\n    }\n  ]\n}",
   "goals": [
     {
       "goal": "Audit Laboratorio",

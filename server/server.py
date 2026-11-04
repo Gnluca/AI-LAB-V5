@@ -1645,38 +1645,6 @@ def ai_lab():
     )
 
 
-@app.get("/ai_lab.js")
-def ai_lab_js():
-
-    return FileResponse(
-        BASE_DIR /
-        "webui" /
-        "ai_lab.js"
-    )
-
-
-@app.get("/ai_lab.css")
-def ai_lab_css():
-
-    return FileResponse(
-        BASE_DIR /
-        "webui" /
-        "ai_lab.css"
-    )
-
-from pathlib import Path
-import json
-
-
-@app.get("/runtime/cognitive-report")
-def runtime_cognitive_report():
-
-   from pathlib import Path
-import json
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 @app.get("/runtime/cognitive-report")
 def runtime_cognitive_report():
 
