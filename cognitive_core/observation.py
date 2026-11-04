@@ -1,50 +1,19 @@
-import json
-import sys
-from pathlib import Path
-from datetime import datetime
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-if str(BASE_DIR) not in sys.path:
-    sys.path.insert(0, str(BASE_DIR))
-
-import sys
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-FRAMEWORK_DIR = BASE_DIR / "framework"
-
-if str(FRAMEWORK_DIR) not in sys.path:
-    sys.path.insert(0, str(FRAMEWORK_DIR))
-
-from resource_manager import resource_manager
-
+from datetime import datetime, timezone
+from framework.resource_manager import resource_manager
 
 def build_observation():
-
     resources = resource_manager.collect()
-
-    observation = {
-        "timestamp": datetime.now().isoformat(),
-        "node41": "online",
-        "node56": resources["node56"]["status"],
-
-        "cpu": resources["cpu"],
-        "memory": resources["memory"],
-        "ollama": resources["ollama"],
-
-        "alerts": []
-    }
-
-    return observation
-
-
-if __name__ == "__main__":
-
-    print(
-        json.dumps(
-            build_observation(),
-            indent=4
-        )
-    )
+    cpu = resources.get("cpu") or {"resource": "cpu", "usage": 0, "status": "unknown"}
+    memory = resources.get("memory") or {"resource": "ram", "usage": 0, "status": "unknown"}
+    ollama = resources.get("ollama") or {"resource": "ollama", "models": [], "status": "unknown"}
+    node = resources.get("node56") or {"resource": "node56", "status": "unknown"}
+    alerts = []
+    if cpu.get("status") in ("warning", "critical"): alerts.append(f"CPU {cpu.get('status')}")
+    try:
+        if float(memory.get("usage", 0)) > 85: alerts.append("RAM usage high")
+    except (TypeError, ValueError): pass
+    if ollama.get("status") != "online": alerts.append("Ollama offline")
+    if node.get("status") != "online": alerts.append("Node56 offline")
+    return {"timestamp": datetime.now(timezone.utc).isoformat(), "node41": "online",
+            "node56": node.get("status", "unknown"), "node_details": node,
+            "cpu": cpu, "memory": memory, "ollama": ollama, "alerts": alerts}

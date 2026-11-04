@@ -3,7 +3,10 @@ import sys
 
 from pathlib import Path
 from datetime import datetime
-from goal_generator import goal_generator
+
+#
+# PATH
+#
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,14 +14,17 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 #
-# Import compatibili sia come script sia come package
+# IMPORTS
 #
 
 try:
     from .observation import build_observation
     from .context_builder import build_context
     from .reasoning_engine import reason
+    from .goal_generator import goal_generator
+
 except ImportError:
+
     from observation import build_observation
     from context_builder import build_context
     from reasoning_engine import reason
@@ -27,8 +33,14 @@ except ImportError:
 try:
     from projects.MCP.mpc_core import mpc
 except Exception as e:
+
     print(f"[ERROR] MPC Core non disponibile: {e}")
+
     mpc = None
+
+#
+# FILES
+#
 
 DATA_DIR = BASE_DIR / "data"
 
@@ -40,39 +52,9 @@ DATA_DIR.mkdir(
 REPORT_FILE = DATA_DIR / "cognitive_report.json"
 FEEDBACK_FILE = DATA_DIR / "feedback.json"
 
-
-def extract_goals(reasoning_text):
-
-    goals = []
-
-    if not reasoning_text:
-        return ["Audit Laboratorio"]
-
-    text = reasoning_text.lower()
-
-    if "node56" in text:
-        goals.append("Monitor Node56")
-
-    if "registry" in text:
-        goals.append("Aggiorna Registry")
-
-    if "servizi" in text or "service" in text:
-        goals.append("Verifica Servizi")
-
-    if "rete" in text or "network" in text:
-        goals.append("Analizza Rete")
-
-    if "hardware" in text:
-        goals.append("Controllo Hardware")
-
-    if "memoria" in text:
-        goals.append("Analizza Memoria")
-
-    if not goals:
-        goals.append("Audit Laboratorio")
-
-    return list(set(goals))
-
+#
+# REPORT
+#
 
 def save_report(
     observation,
@@ -82,7 +64,7 @@ def save_report(
 ):
 
     report = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.utcnow().isoformat(),
         "observation": observation,
         "context": context,
         "reasoning": reasoning,
@@ -98,10 +80,14 @@ def save_report(
         json.dump(
             report,
             f,
-            indent=4,
+            indent=2,
             ensure_ascii=False
         )
 
+
+#
+# FEEDBACK
+#
 
 def save_feedback(results):
 
@@ -120,11 +106,12 @@ def save_feedback(results):
                 feedback = json.load(f)
 
         except Exception:
+
             feedback = []
 
     feedback.append(
         {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.utcnow().isoformat(),
             "results": results
         }
     )
@@ -138,17 +125,25 @@ def save_feedback(results):
         json.dump(
             feedback,
             f,
-            indent=4,
+            indent=2,
             ensure_ascii=False
         )
 
 
+#
+# EXECUTION
+#
+
 def execute_tasks():
 
     if not mpc:
+
         return []
 
     results = []
+
+    safety_counter = 0
+    max_tasks = 50
 
     while True:
 
@@ -163,8 +158,21 @@ def execute_tasks():
 
         print(result)
 
+        safety_counter += 1
+
+        if safety_counter >= max_tasks:
+
+            print(
+                "[WARNING] task budget reached"
+            )
+            break
+
     return results
 
+
+#
+# CYCLE
+#
 
 def run_cycle():
 
@@ -174,7 +182,7 @@ def run_cycle():
     print("===================================")
 
     #
-    # OSSERVAZIONE
+    # OBSERVATION
     #
 
     observation = build_observation()
@@ -184,7 +192,7 @@ def run_cycle():
     print(observation)
 
     #
-    # CONTESTO
+    # CONTEXT
     #
 
     context = build_context(
@@ -196,7 +204,7 @@ def run_cycle():
     print(context)
 
     #
-    # RAGIONAMENTO
+    # REASONING
     #
 
     reasoning = reason(
@@ -208,12 +216,12 @@ def run_cycle():
     print(reasoning)
 
     #
-    # GOAL
+    # GOALS
     #
 
     goals = goal_generator.parse(
-    reasoning
-   )
+        reasoning
+    )
 
     print()
     print("[GOALS]")
@@ -233,58 +241,8 @@ def run_cycle():
             "message": "MPC non disponibile"
         }
 
+    #
+    # MPC
+    #
+
     created_goals = []
-
-    # rimuove duplicati
-
-    unique = {}
-
-    for goal in goals:
-        unique[goal["goal"]] = goal
-
-    goals = list(unique.values())
-
-    # ordina per priorità
-    goals.sort(
-        key=lambda x: x["priority"],
-        reverse=True
-    )
-
-    for goal_data in goals:
-        item = mpc.create_goal(goal_data["goal"])
-        created_goals.append(item)
-
-        print(
-            f"[GOAL] {goal_data['goal']} "
-            f"(priority={goal_data['priority']})"
-        )
-
-    print()
-    print("[MPC STATUS]")
-    print(mpc.status())
-
-    print()
-    print("[TASK EXECUTION]")
-
-    results = execute_tasks()
-
-    save_feedback(results)
-
-    print()
-    print("[FINAL STATUS]")
-    print(mpc.status())
-
-    return {
-        "status": "success",
-        "goals": created_goals,
-        "executed_tasks": len(results)
-    }
-
-
-if __name__ == "__main__":
-
-    result = run_cycle()
-
-    print()
-    print("[RESULT]")
-    print(result)

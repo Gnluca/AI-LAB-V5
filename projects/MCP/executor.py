@@ -7,6 +7,11 @@ except ImportError:
     from decision_engine import decision_engine
     from task_queue import task_queue
 
+from adapters.agents.memory_adapter import memory_adapter
+from adapters.agents.network_adapter import network_adapter
+from adapters.agents.hardware_adapter import hardware_adapter
+from adapters.agents.service_adapter import service_adapter
+
 
 class Executor:
 
@@ -31,27 +36,63 @@ class Executor:
             }
 
         #
-        # TASK REMOTO
+        # MEMORY
+        #
+
+        if task in [
+            "memory_audit",
+            "memory_report"
+        ]:
+            return memory_adapter.run(task)
+
+        #
+        # NETWORK
+        #
+
+        if task in [
+            "network_scan",
+            "network_report"
+        ]:
+            return network_adapter.run(task)
+
+        #
+        # HARDWARE
+        #
+
+        if task in [
+            "hardware_check",
+            "hardware_report"
+        ]:
+            return hardware_adapter.run(task)
+
+        #
+        # SERVICES
+        #
+
+        if task in [
+            "service_check",
+            "service_report"
+        ]:
+            return service_adapter.run(task)
+
+        #
+        # REMOTE TASKS
         #
 
         if agent == "KnowledgeAgent":
 
             try:
 
-                print(f"[REMOTE] {task}")
-
                 url = "http://127.0.0.1:8000/worker/execute"
 
-                print(f"[REMOTE URL] {url}")
+                print(f"[REMOTE] {task}")
+                print(f"[URL] {url}")
 
                 response = requests.post(
                     url,
                     json={"task": task},
                     timeout=30
                 )
-
-                print("STATUS CODE:", response.status_code)
-                print("RESPONSE:", response.text)
 
                 worker_result = response.json()
 
@@ -68,25 +109,24 @@ class Executor:
 
             except Exception as e:
 
-                task_queue.enqueue(task)
-
                 return {
                     "task": task,
                     "agent": agent,
                     "node": "node56",
-                    "status": "retry",
+                    "status": "failed",
                     "error": str(e)
                 }
 
         #
-        # TASK LOCALI
+        # DEFAULT
         #
 
         return {
             "task": task,
             "agent": agent,
             "node": "node41",
-            "status": "executed"
+            "status": "accepted",
+            "detail": "Recognized task; adapter not configured"
         }
 
 

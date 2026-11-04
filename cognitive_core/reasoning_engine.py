@@ -1,134 +1,37 @@
 import json
+import os
 import requests
-import sys
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-if str(BASE_DIR) not in sys.path:
-    sys.path.insert(0, str(BASE_DIR))
-
 from framework.resource_manager import resource_manager
 from framework.model_selector import model_selector
 
-OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
-
-resources = resource_manager.collect()
-
-MODEL = model_selector.select(
-    resources
-)
-
-print(f"[MODEL] {MODEL}")
-
-def extract_goals(response_text):
-
+def _fallback(context):
+    text = " ".join((context or {}).get("problems", [])).lower()
     goals = []
+    if "node56" in text: goals.append({"goal": "Monitor Node56", "priority": 9})
+    if "ram" in text or "memoria" in text: goals.append({"goal": "Analizza Memoria", "priority": 8})
+    if "rete" in text or "network" in text: goals.append({"goal": "Analizza Rete", "priority": 7})
+    if "ollama" in text or "servizi" in text: goals.append({"goal": "Verifica Servizi", "priority": 8})
+    if not goals: goals.append({"goal": "Audit Laboratorio", "priority": 5})
+    return json.dumps({"goals": goals}, ensure_ascii=False)
 
-    text = response_text.lower()
-
-    if "obiettiv" in text:
-
-        if "monitoraggio" in text:
-            goals.append("Audit Laboratorio")
-
-        if "analizzare" in text:
-            goals.append("Audit Laboratorio")
-
-        if "network" in text:
-            goals.append("Audit Laboratorio")
-
-    if not goals:
-        goals.append("Audit Laboratorio")
-
-    return goals 
-
-def reason(context):
-
-    prompt = f"""
-Sei il Cognitive Core di AI-LAB.
-
-Analizza il contesto.
-
-CONTESTO:
-
-{json.dumps(context, indent=2)}
-
-Rispondi SOLO in JSON.
-
-Formato:
-
-{{
-  "goals": [
-    {{
-      "goal": "Monitor Node56",
-      "priority": 10
-    }}
-  ]
-}}
-
-Formato consentito:
-
-{
-  "goals": [
-    {
-      "goal": "<goal esistente>",
-      "priority": 1-10
-    }
-  ]
-}
-
-Goal consentiti:
-
-- Audit Laboratorio
-- Analizza Memoria
-- Analizza Rete
-- Controllo Hardware
-- Monitor Node56
-- Verifica Servizi
-- Aggiorna Registry
-
-Non aggiungere spiegazioni.
-"""
-    payload = {
-        "model": MODEL,
-        "prompt": prompt,
-        "stream": False
-    }
-
+def reason(context, resources=None, session=None):
+    resources = resources if resources is not None else resource_manager.collect()
+    model = model_selector.select(resources)
+    if not model: return _fallback(context)
+    endpoint = os.getenv("AI_LAB_OLLAMA_GENERATE_URL", "http://127.0.0.1:11434/api/generate")
+    prompt = ('Sei il Cognitive Core AI-LAB. Analizza il contesto e rispondi SOLO JSON nel formato '
+              '{"goals":[{"goal":"Audit Laboratorio","priority":5}]}. Goal consentiti: '
+              'Audit Laboratorio, Analizza Memoria, Analizza Rete, Controllo Hardware, Monitor Node56, '
+              'Verifica Servizi, Aggiorna Registry, Sincronizza Node56, Aggiorna Knowledge Base, '
+              'Health Check Completo. Priorità intera 1-10.\nCONTESTO:\n' +
+              json.dumps(context or {}, ensure_ascii=False, indent=2))
+    http = session or requests
     try:
-        response = requests.post(
-            OLLAMA_URL,
-            json=payload,
-            timeout=300
-        )
-
-        print("STATUS:", response.status_code)
-
-        if response.status_code != 200:
-            print(response.text)
-            return None
-
+        response = http.post(endpoint, json={"model": model, "prompt": prompt, "stream": False},
+                             timeout=float(os.getenv("AI_LAB_OLLAMA_TIMEOUT", "45")))
+        response.raise_for_status()
         data = response.json()
-
-        return data.get("response", "")
-
-    except Exception as e:
-        print("ERRORE:", e)
-        return None
-
-
-if __name__ == "__main__":
-
-    test_context = {
-        "status": "attention",
-        "problems": [
-            "nessun obiettivo attivo"
-        ]
-    }
-
-    result = reason(test_context)
-
-    print("\n=== RISPOSTA OLLAMA ===\n")
-
-    print(result)
+        answer = data.get("response") if isinstance(data, dict) else None
+        return answer if isinstance(answer, str) and answer.strip() else _fallback(context)
+    except (requests.RequestException, ValueError, TypeError):
+        return _fallback(context)

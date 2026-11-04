@@ -1,6 +1,6 @@
 {
     "node56":  {
-                   "status":  "offline",
+                   "status":  "online",
                    "ip":  "192.168.1.56",
                    "role":  "worker"
                },

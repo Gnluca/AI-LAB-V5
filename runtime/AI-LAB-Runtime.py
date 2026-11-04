@@ -33,6 +33,26 @@ sys.path.insert(0, r"E:\AI-Server\server")
 
 # Import applicazione FastAPI
 from server import app
+import threading
+
+import importlib.util
+
+MASTER_LOOP_PATH = os.path.join(
+    ROOT,
+    "runtime",
+    "master_loop.py"
+)
+
+spec = importlib.util.spec_from_file_location(
+    "master_loop",
+    MASTER_LOOP_PATH
+)
+
+master_loop_module = importlib.util.module_from_spec(spec)
+
+spec.loader.exec_module(master_loop_module)
+
+MasterLoop = master_loop_module.MasterLoop
 
 LAB_STATUS = {
     "runtime": False,
@@ -90,6 +110,20 @@ def startup_checks():
     else:
 
         print("[DEGRADED] AI-LAB")
+        
+def start_master_loop():
+
+    try:
+
+        loop = MasterLoop()
+
+        loop.run()
+
+    except Exception as e:
+
+        print(
+            f"[MASTER LOOP ERROR] {e}"
+        )        
 
 
 if __name__ == "__main__":
@@ -99,6 +133,14 @@ if __name__ == "__main__":
     startup_checks()
 
     print()
+    print("Starting Master Loop...")
+    print()
+
+    threading.Thread(
+        target=start_master_loop,
+        daemon=True
+    ).start()
+
     print("Starting AI-LAB API...")
     print()
 
@@ -107,7 +149,4 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=8000
     )
-     
-hiddenimports=[
-    "sqlite3"
-]     
+         

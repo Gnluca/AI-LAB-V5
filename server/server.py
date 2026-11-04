@@ -9,21 +9,29 @@ import json
 import sys
 import requests
 import psutil
-
 from pathlib import Path
 
 from governance import get_governance
 from memory import audit_memory
 from inventory import scan_inventory
 from network_agent import discover_network
-from mpc_core import mpc
-from task_queue import task_queue
-from decision_engine import decision_engine
-from goals import goal_manager
+
+SERVER_DIR = Path(__file__).resolve().parent
+if str(SERVER_DIR) not in sys.path:
+    sys.path.insert(0, str(SERVER_DIR))
+
+try:
+    from mpc_core import mpc  # pyright: ignore[reportMissingImports]
+except ImportError:
+    from server.mpc_core import mpc
+
+from task_queue import task_queue  # pyright: ignore[reportMissingImports]
+from decision_engine import decision_engine  # pyright: ignore[reportMissingImports]
+from goals import goal_manager  # pyright: ignore[reportMissingImports]
 from fastapi import HTTPException
 from agenda.agenda_engine import agenda
 from fastapi import Body
-
+from fastapi.responses import FileResponse
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -1624,17 +1632,79 @@ def worker_execute(payload: dict = Body(...)):
         "status": "completed",
         "task": task,
         "node": "node56"
-    }    
-        
+    }
 
-app.mount(
-    "/",
-    StaticFiles(
-        directory=str(WEBUI_DIR),
-        html=True
-    ),
-    name="webui"
-) 
+
+@app.get("/ai-lab")
+def ai_lab():
+
+    return FileResponse(
+        BASE_DIR /
+        "webui" /
+        "ai_lab.html"
+    )
+
+
+@app.get("/ai_lab.js")
+def ai_lab_js():
+
+    return FileResponse(
+        BASE_DIR /
+        "webui" /
+        "ai_lab.js"
+    )
+
+
+@app.get("/ai_lab.css")
+def ai_lab_css():
+
+    return FileResponse(
+        BASE_DIR /
+        "webui" /
+        "ai_lab.css"
+    )
+
+from pathlib import Path
+import json
+
+
+@app.get("/runtime/cognitive-report")
+def runtime_cognitive_report():
+
+   from pathlib import Path
+import json
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+@app.get("/runtime/cognitive-report")
+def runtime_cognitive_report():
+
+    file = BASE_DIR / "data" / "cognitive_report.json"
+
+    if file.exists():
+        with open(file, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    return {
+        "status": "missing"
+    }
+
+@app.get("/runtime/feedback")
+def runtime_feedback():
+
+    file = BASE_DIR / "data" / "feedback.json"
+
+    if file.exists():
+        with open(file, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    return {
+        "status": "missing",
+        "file": str(file)
+    }
+
+
 
 
 

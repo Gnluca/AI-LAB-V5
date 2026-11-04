@@ -1,23 +1,14 @@
+from collections import deque
+from threading import RLock
 class TaskQueue:
-
-    def __init__(self):
-        self.tasks = []
-
+    def __init__(self): self.tasks, self._lock = deque(), RLock()
     def enqueue(self, task):
-        self.tasks.append(task)
-
+        if not isinstance(task, str) or not task.strip(): raise ValueError("task must be non-empty")
+        with self._lock: self.tasks.append(task)
     def dequeue(self):
-
-        if self.tasks:
-            return self.tasks.pop(0)
-
-        return None
-
+        with self._lock: return self.tasks.popleft() if self.tasks else None
     def size(self):
-        return len(self.tasks)
-
+        with self._lock: return len(self.tasks)
     def all(self):
-        return self.tasks
-
-
+        with self._lock: return list(self.tasks)
 task_queue = TaskQueue()

@@ -1,45 +1,61 @@
 {
-    "timestamp": "2026-11-03T02:06:49.694189",
-    "observation": {
-        "timestamp": "2026-11-03T02:06:46.517038",
-        "node41": "online",
-        "node56": "online",
-        "cpu": {
-            "resource": "cpu",
-            "usage": 6.9,
-            "status": "healthy"
-        },
-        "memory": {
-            "resource": "ram",
-            "usage": 36.5,
-            "total_gb": 31.92,
-            "available_gb": 20.29
-        },
-        "ollama": {
-            "resource": "ollama",
-            "models": [
-                "nimble:latest",
-                "llama3.1:latest",
-                "phi3:latest",
-                "gemma4:31b"
-            ],
-            "status": "online"
-        },
-        "alerts": []
+  "timestamp": "2026-11-04T00:33:50.853581",
+  "observation": {
+    "timestamp": "2026-11-04T00:33:46.799891+00:00",
+    "node41": "online",
+    "node56": "online",
+    "node_details": {
+      "resource": "node56",
+      "status": "online",
+      "endpoint": "http://192.168.1.56:8000",
+      "details": {
+        "status": "online",
+        "service": "AI-LAB",
+        "version": "V6.3",
+        "runtime": "online",
+        "primary_node": "node41",
+        "secondary_node": "node56",
+        "ollama": "online",
+        "model": "llama3.1",
+        "registry": "active"
+      }
     },
-    "context": {
-        "status": "healthy",
-        "problems": [],
-        "recommendations": [
-            "Sistema stabile"
-        ]
+    "cpu": {
+      "resource": "cpu",
+      "usage": 13.0,
+      "status": "healthy"
     },
-    "reasoning": "{\n  \"goals\": [\n    {\n      \"goal\": \"Eseguire verifica di sistema\",\n      \"priority\": 10\n    }\n  ]\n}",
-    "goals": [
-        {
-            "goal": "Eseguire verifica di sistema",
-            "priority": 10,
-            "status": "pending"
-        }
+    "memory": {
+      "resource": "ram",
+      "usage": 38.2,
+      "total_gb": 31.92,
+      "available_gb": 19.74
+    },
+    "ollama": {
+      "resource": "ollama",
+      "models": [
+        "nimble:latest",
+        "llama3.1:latest",
+        "phi3:latest",
+        "gemma4:31b"
+      ],
+      "status": "online"
+    },
+    "alerts": []
+  },
+  "context": {
+    "status": "healthy",
+    "problems": [],
+    "recommendations": [
+      "Sistema stabile"
     ]
+  },
+  "reasoning": "{\"goals\":[{\"goal\":\"Audit Laboratorio\",\"priority\":5}]}",
+  "goals": [
+    {
+      "goal": "Audit Laboratorio",
+      "priority": 5,
+      "status": "pending"
+    }
+  ]
 }
