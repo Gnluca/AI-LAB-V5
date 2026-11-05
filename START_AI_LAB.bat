@@ -1,8 +1,14 @@
 @echo off
-title AI-LAB Runtime
+cd /d E:\AI-Server
 
-cd /d E:\AI-Server\runtime\dist
+start "AI-LAB SERVER" cmd /k python -m uvicorn server.server:app --host 0.0.0.0 --port 8000
 
-AI-LAB-Runtime.exe
+timeout /t 5 >nul
 
-pause
+start "AI-LAB RUNTIME" cmd /k python runtime\ai_lab_runtime.py
+
+timeout /t 10 >nul
+
+python diagnostics.py > data\logs\diagnostics_startup.log 2>&1
+
+exit

@@ -1,0 +1,2 @@
+[console_scripts]
+ai-lab-runtime = runtime.ai_lab_runtime:main

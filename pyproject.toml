@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=69.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-lab"
+version = "7.1.0"
+description = "AI-LAB Distributed Cognitive Framework"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+
+authors = [
+    { name = "AI-LAB Team" }
+]
+
+keywords = [
+    "ai",
+    "automation",
+    "fastapi",
+    "ollama",
+    "cognitive-core",
+    "deployment",
+    "cluster",
+    "agent-framework"
+]
+
+dependencies = [
+    "fastapi>=0.116.0",
+    "uvicorn>=0.35.0",
+    "requests>=2.32.0",
+    "psutil>=7.0.0",
+    "pydantic>=2.11.0",
+    "python-multipart>=0.0.20"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-repository/ai-lab"
+
+
+[project.scripts]
+ai-lab-runtime = "runtime.ai_lab_runtime:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "agents*",
+    "adapters*",
+    "agenda*",
+    "cognitive_core*",
+    "config*",
+    "core*",
+    "events*",
+    "framework*",
+    "governance*",
+    "identity*",
+    "knowledge*",
+    "manager*",
+    "projects*",
+    "registry*",
+    "runtime*",
+    "scheduler*",
+    "security*",
+    "server*"
+]
+
+[tool.setuptools.package-data]
+"*" = [
+    "*.json",
+    "*.md",
+    "*.txt",
+    "*.html",
+    "*.css",
+    "*.js"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+line_length = 100

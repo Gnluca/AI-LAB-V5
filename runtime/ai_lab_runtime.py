@@ -28,11 +28,10 @@ if sock.connect_ex(("127.0.0.1", 8000)) == 0:
     print("[INFO] AI-LAB già avviato sulla porta 8000")
     sys.exit(0)
 
-# Percorso del server FastAPI
-sys.path.insert(0, r"E:\AI-Server\server")
-
 # Import applicazione FastAPI
-from server import app
+# ROOT è già inserito nel sys.path sopra
+
+from server.server import app
 import threading
 
 import importlib.util

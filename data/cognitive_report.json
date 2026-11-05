@@ -1,35 +1,25 @@
 {
-  "timestamp": "2026-11-04T03:06:41.000883",
+  "timestamp": "2026-11-05T09:05:09.099150",
   "observation": {
-    "timestamp": "2026-11-04T03:06:36.624534+00:00",
+    "timestamp": "2026-11-05T09:04:59.848327+00:00",
     "node41": "online",
-    "node56": "online",
+    "node56": "offline",
     "node_details": {
       "resource": "node56",
-      "status": "online",
+      "status": "offline",
       "endpoint": "http://192.168.1.56:8000",
-      "details": {
-        "status": "online",
-        "service": "AI-LAB",
-        "version": "V6.3",
-        "runtime": "online",
-        "primary_node": "node41",
-        "secondary_node": "node56",
-        "ollama": "online",
-        "model": "llama3.1",
-        "registry": "active"
-      }
+      "error": "HTTPConnectionPool(host='192.168.1.56', port=8000): Max retries exceeded with url: /status (Caused by ConnectTimeoutError(<HTTPConnection(host='192.168.1.56', port=8000) at 0x250671eb9b0>, 'Connection to 192.168.1.56 timed out. (connect timeout=3.0)'))"
     },
     "cpu": {
       "resource": "cpu",
-      "usage": 13.9,
+      "usage": 8.6,
       "status": "healthy"
     },
     "memory": {
       "resource": "ram",
-      "usage": 35.0,
+      "usage": 32.5,
       "total_gb": 31.92,
-      "available_gb": 20.74
+      "available_gb": 21.56
     },
     "ollama": {
       "resource": "ollama",
@@ -41,19 +31,26 @@
       ],
       "status": "online"
     },
-    "alerts": []
-  },
-  "context": {
-    "status": "healthy",
-    "problems": [],
-    "recommendations": [
-      "Sistema stabile"
+    "alerts": [
+      "Node56 offline"
     ]
   },
-  "reasoning": "{\"goals\":[{\"goal\":\"Audit Laboratorio\",\"priority\":5}]}",
+  "context": {
+    "status": "warning",
+    "problems": [
+      "Node56 offline"
+    ],
+    "recommendations": []
+  },
+  "reasoning": "{\"goals\":[{\"goal\":\"Monitor Node56\",\"priority\":10},{\"goal\":\"Health Check Completo\",\"priority\":5}]}",
   "goals": [
     {
-      "goal": "Audit Laboratorio",
+      "goal": "Monitor Node56",
+      "priority": 10,
+      "status": "pending"
+    },
+    {
+      "goal": "Health Check Completo",
       "priority": 5,
       "status": "pending"
     }

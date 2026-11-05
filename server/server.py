@@ -9,29 +9,26 @@ import json
 import sys
 import requests
 import psutil
+
 from pathlib import Path
 
-from governance import get_governance
-from memory import audit_memory
-from inventory import scan_inventory
-from network_agent import discover_network
-
-SERVER_DIR = Path(__file__).resolve().parent
-if str(SERVER_DIR) not in sys.path:
-    sys.path.insert(0, str(SERVER_DIR))
-
-try:
-    from mpc_core import mpc  # pyright: ignore[reportMissingImports]
-except ImportError:
-    from server.mpc_core import mpc
-
-from task_queue import task_queue  # pyright: ignore[reportMissingImports]
-from decision_engine import decision_engine  # pyright: ignore[reportMissingImports]
-from goals import goal_manager  # pyright: ignore[reportMissingImports]
+from server.governance import get_governance
+from server.memory import audit_memory
+from server.inventory import scan_inventory
+from server.network_agent import discover_network
+from projects.MCP import mpc_core
+from projects.MCP.task_queue import task_queue
+from projects.MCP.decision_engine import decision_engine
+from projects.MCP.goals import goal_manager
 from fastapi import HTTPException
 from agenda.agenda_engine import agenda
 from fastapi import Body
-from fastapi.responses import FileResponse
+AI_LAB_HOME = Path(__file__).resolve().parent.parent
+
+PROJECTS_DIR = AI_LAB_HOME / "projects"
+PASSPORT_DIR = AI_LAB_HOME / "passport"
+FINGERPRINT_DIR = AI_LAB_HOME / "fingerprints"
+
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,29 +50,26 @@ LEGACY_IP = "192.168.1.56"
 
 OLLAMA_MODEL = "llama3.1"
 
-REGISTRY_DIR = Path(r"E:\AI-Server\registry")
-PASSPORT_DIR = Path(r"E:\AI-Server\passport")
-FINGERPRINT_DIR = Path(r"E:\AI-Server\fingerprint")
-mcp_path = r"E:\AI-Server\projects\MCP"
+mcp_path = str(PROJECTS_DIR / "MCP")
 
 
 if mcp_path not in sys.path:
     sys.path.append(mcp_path)
 
-from mcp_server import MCPServer
+from projects.MCP.mcp_server import MCPServer
 
 # MPC CORE
-from mpc_core import mpc
-from task_queue import task_queue
-from goals import goal_manager
+from projects.MCP.mpc_core import mpc
+from projects.MCP.task_queue import task_queue
+from projects.MCP.goals import goal_manager
 
-from bridge import (
+from server.bridge import (
     generate,
     server_status,
     list_models
 )
 
-from memory import (
+from server.memory import (
     init_memory,
     save_memory,
     search_memory,
@@ -90,7 +84,7 @@ from memory import (
 
 init_memory()
 
-PROJECTS_DIR = r"E:\AI-Server\projects"
+PROJECTS_DIR = str(BASE_DIR / "projects")
 
 os.makedirs(
     PROJECTS_DIR,
@@ -753,7 +747,7 @@ def memory_snapshot():
 @app.get("/agent/memory/build")
 def memory_build():
 
-    from database import cursor, conn
+    from server.database import cursor, conn
 
     knowledge = [
 
@@ -1486,7 +1480,7 @@ def passport():
 @app.get("/agent/labmanager/governance")
 def governance():
 
-    return get_governance()
+    return server.governance.get_governance()
 
 @app.get("/agent/labmanager/status")
 def lab_status():
@@ -1619,6 +1613,26 @@ def api_status():
         "version": "6.4",
         "runtime": "online"
     }
+    
+@app.get("/runtime/cognitive-report")
+def cognitive_report():
+    return json.load(
+        open(
+            "data/cognitive_report.json",
+            "r",
+            encoding="utf-8"
+        )
+    )
+
+@app.get("/runtime/feedback")
+def feedback():
+    return json.load(
+        open(
+            "data/feedback.json",
+            "r",
+            encoding="utf-8"
+        )
+    )    
 
 
 @app.post("/worker/execute")
@@ -1634,88 +1648,26 @@ def worker_execute(payload: dict = Body(...)):
         "node": "node56"
     }
 
-
-@app.get("/ai-lab")
-def ai_lab():
-
-    return FileResponse(
-        BASE_DIR /
-        "webui" /
-        "ai_lab.html"
-    )
-
-
-@app.get("/runtime/feedback")
-def runtime_feedback():
-
-    file = BASE_DIR / "data" / "feedback.json"
-
-    if file.exists():
-        with open(file, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-    return {
-        "status": "missing",
-        "file": str(file)
-    }
-
-@app.get("/runtime/cognitive-report")
-def runtime_cognitive_report():
-
-    print("COGNITIVE REPORT ENDPOINT CALLED")
-
-    file = BASE_DIR / "data" / "cognitive_report.json"
-
-    print(file)
-
-    if file.exists():
-        with open(file, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        print(type(data))
-
-        return data
-
-    return {
-        "status": "missing"
-    }
-
-@app.get("/")
-def root():
-    return FileResponse(
-        WEBUI_DIR / "index.html"
-    )
-
-@app.get("/system/health")
-def system_health():
-
-    file = BASE_DIR / "data" / "health_status.json"
-
-    if file.exists():
-
-        with open(file, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-    return {
-        "status": "missing"
-    }
-
-@app.get("/")
-def root():
-    return FileResponse(WEBUI_DIR / "index.html")
-
+    
 from fastapi.staticfiles import StaticFiles
 
-WEBUI_DIR = BASE_DIR / "webui"
-
 app.mount(
-    "/webui",
-    StaticFiles(directory=WEBUI_DIR),
-    name="webui"
+    "/v2",
+    StaticFiles(
+        directory=r"E:\AI-Server\webui_v2",
+        html=True
+    ),
+    name="webui_v2"
 )
 
+if __name__ == "__main__":
+    import uvicorn
 
-
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000
+    )
 
 
 

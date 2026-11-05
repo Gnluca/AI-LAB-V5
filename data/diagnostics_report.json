@@ -1,0 +1,439 @@
+{
+    "generated_at": "2026-11-05T12:23:09",
+    "project_root": "E:\\AI-Server",
+    "version": "7.1.0",
+    "health_score": 84,
+    "summary": {
+        "ok": 9,
+        "warning": 5,
+        "error": 0
+    },
+    "checks": [
+        {
+            "id": "python",
+            "name": "Python environment",
+            "level": "WARNING",
+            "message": "3.14.10 at C:\\Users\\lucaa\\AppData\\Local\\Programs\\Python\\Python314\\python.exe; no virtualenv is active",
+            "weight": 6,
+            "details": {
+                "executable": "C:\\Users\\lucaa\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+                "version": "3.14.10",
+                "virtualenv": false,
+                "required": ">=3.11"
+            }
+        },
+        {
+            "id": "dependencies",
+            "name": "Installed dependencies",
+            "level": "OK",
+            "message": "fastapi 0.141.1, uvicorn 0.52.4, requests 2.34.2, psutil 7.2.2, pydantic 2.13.4",
+            "weight": 10,
+            "details": {
+                "installed": {
+                    "fastapi": "0.141.1",
+                    "uvicorn": "0.52.4",
+                    "requests": "2.34.2",
+                    "psutil": "7.2.2",
+                    "pydantic": "2.13.4",
+                    "python-multipart": "0.0.32"
+                },
+                "missing": [],
+                "conflicts": []
+            }
+        },
+        {
+            "id": "runtime",
+            "name": "Runtime status",
+            "level": "OK",
+            "message": "port 8000 serving /runtime/health",
+            "weight": 10,
+            "details": {
+                "port_8000": true,
+                "health": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 17.3,
+                    "payload": {
+                        "runtime": "online",
+                        "server": "online",
+                        "dashboard": "online",
+                        "status": "healthy"
+                    }
+                },
+                "processes": [
+                    {
+                        "pid": 15892,
+                        "command": "python -m uvicorn server.server:app --host 0.0.0.0 --port 8000",
+                        "this_tree": false
+                    }
+                ]
+            }
+        },
+        {
+            "id": "master_loop",
+            "name": "Master Loop status",
+            "level": "WARNING",
+            "message": "state file says cycle 40 completed (8279s old); live processes are outside this tree: pid 15892 (python -m uvicorn server.server:app --host 0.0.0.0 --port 8000); data/loop_status.json is stale",
+            "weight": 8,
+            "details": {
+                "state_file": "E:\\AI-Server\\data\\master_loop_state.json",
+                "state": {
+                    "timestamp": "2026-11-05T09:05:09.099816+00:00",
+                    "cycle": 40,
+                    "status": "completed",
+                    "message": "null"
+                },
+                "loop_status": {
+                    "status": "online",
+                    "cycle": 20,
+                    "timestamp": "2026-11-05T08:55:40.168242+00:00",
+                    "result": null
+                },
+                "processes": [
+                    {
+                        "pid": 15892,
+                        "command": "python -m uvicorn server.server:app --host 0.0.0.0 --port 8000",
+                        "this_tree": false
+                    }
+                ],
+                "age_seconds": 8279.9,
+                "published_status_age_seconds": 8848.8
+            }
+        },
+        {
+            "id": "cognitive_core",
+            "name": "Cognitive Core status",
+            "level": "WARNING",
+            "message": "modules compile; last cognitive report is 197 min old",
+            "weight": 8,
+            "details": {
+                "compile_errors": [],
+                "report_timestamp": "2026-11-05T09:05:09.099150",
+                "age_seconds": 11879.9
+            }
+        },
+        {
+            "id": "mpc",
+            "name": "MPC status",
+            "level": "OK",
+            "message": "online, pending goals 0, queue 0",
+            "weight": 8,
+            "details": {
+                "in_process": {
+                    "status": "online",
+                    "pending_goals": 0,
+                    "goals_total": 0,
+                    "queue_size": 0
+                },
+                "endpoint": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 1.9,
+                    "payload": {
+                        "status": "online",
+                        "pending_goals": 0,
+                        "goals_total": 0,
+                        "queue_size": 0
+                    }
+                }
+            }
+        },
+        {
+            "id": "fastapi",
+            "name": "FastAPI status",
+            "level": "OK",
+            "message": "/health ok, /status AI-LAB",
+            "weight": 10,
+            "details": {
+                "health": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 1.3,
+                    "payload": {
+                        "status": "ok"
+                    }
+                },
+                "status": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 1.3,
+                    "payload": {
+                        "status": "online",
+                        "service": "AI-LAB",
+                        "version": "V6.3",
+                        "runtime": "online",
+                        "primary_node": "node41",
+                        "secondary_node": "node56",
+                        "ollama": "online",
+                        "model": "llama3.1",
+                        "registry": "active"
+                    }
+                }
+            }
+        },
+        {
+            "id": "dashboard",
+            "name": "Dashboard status",
+            "level": "WARNING",
+            "message": "web UI files exist, but the dashboard is not being served",
+            "weight": 6,
+            "details": {
+                "missing_assets": [],
+                "served": false,
+                "legacy_dashboard": "E:\\AI-Learning-Studio\\app\\dashboard.py",
+                "legacy_dashboard_exists": true
+            }
+        },
+        {
+            "id": "ollama",
+            "name": "Ollama connectivity",
+            "level": "OK",
+            "message": "4 model(s) visible at http://127.0.0.1:11434",
+            "weight": 8,
+            "details": {
+                "endpoint": "http://127.0.0.1:11434/api/tags",
+                "result": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 30.1,
+                    "payload": {
+                        "models": [
+                            {
+                                "name": "nimble:latest",
+                                "model": "nimble:latest",
+                                "modified_at": "2026-10-08T22:00:22.5388041+02:00",
+                                "size": 9527502277,
+                                "digest": "9b953de7a5336756ece1cb1e8632e374b3dbdabe3d02d405cf8291da2d43a131",
+                                "details": {
+                                    "parent_model": "Bespoke-Nimble-9B-merged-current-Q8_0.gguf",
+                                    "format": "gguf",
+                                    "family": "qwen35",
+                                    "families": [
+                                        "qwen35"
+                                    ],
+                                    "parameter_size": "9.0B",
+                                    "quantization_level": "Q8_0",
+                                    "context_length": 262144,
+                                    "embedding_length": 4096,
+                                    "runner": "llamacpp"
+                                },
+                                "capabilities": [
+                                    "decision"
+                                ]
+                            },
+                            {
+                                "name": "llama3.1:latest",
+                                "model": "llama3.1:latest",
+                                "modified_at": "2026-09-20T00:05:10.1168793+02:00",
+                                "size": 4920753328,
+                                "digest": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+                                "details": {
+                                    "parent_model": "",
+                                    "format": "gguf",
+                                    "family": "llama",
+                                    "families": [
+                                        "llama"
+                                    ],
+                                    "parameter_size": "8.0B",
+                                    "quantization_level": "Q4_K_M",
+                                    "context_length": 131072,
+                                    "embedding_length": 4096,
+                                    "runner": "ggml"
+                                },
+                                "capabilities": [
+                                    "completion",
+                                    "tools"
+                                ]
+                            },
+                            {
+                                "name": "phi3:latest",
+                                "model": "phi3:latest",
+                                "modified_at": "2026-09-19T21:01:25.7006538+02:00",
+                                "size": 2176178913,
+                                "digest": "4f222292793889a9a40a020799cfd28d53f3e01af25d48e06c5e708610fc47e9",
+                                "details": {
+                                    "parent_model": "",
+                                    "format": "gguf",
+                                    "family": "phi3",
+                                    "families": [
+                                        "phi3"
+                                    ],
+                                    "parameter_size": "3.8B",
+                                    "quantization_level": "Q4_0",
+                                    "context_length": 131072,
+                                    "embedding_length": 3072,
+                                    "runner": "ggml"
+                                },
+                                "capabilities": [
+                                    "completion"
+                                ]
+                            },
+                            {
+                                "name": "gemma4:31b",
+                                "model": "gemma4:31b",
+                                "modified_at": "2026-09-03T19:09:18.9339334+02:00",
+                                "size": 19868981791,
+                                "digest": "6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+                                "details": {
+                                    "parent_model": "",
+                                    "format": "gguf",
+                                    "family": "gemma4",
+                                    "families": [
+                                        "gemma4"
+                                    ],
+                                    "parameter_size": "31.3B",
+                                    "quantization_level": "Q4_K_M",
+                                    "context_length": 262144,
+                                    "embedding_length": 5376,
+                                    "runner": "ggml"
+                                },
+                                "capabilities": [
+                                    "completion",
+                                    "vision",
+                                    "tools",
+                                    "thinking"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "models": [
+                    "nimble:latest",
+                    "llama3.1:latest",
+                    "phi3:latest",
+                    "gemma4:31b"
+                ]
+            }
+        },
+        {
+            "id": "model",
+            "name": "Active model availability",
+            "level": "OK",
+            "message": "available: llama3.1:latest",
+            "weight": 8,
+            "details": {
+                "expected": "llama3.1",
+                "matched": [
+                    "llama3.1:latest"
+                ],
+                "registry_error": null,
+                "registry_declares_expected": true
+            }
+        },
+        {
+            "id": "node41",
+            "name": "Node41 connectivity",
+            "level": "OK",
+            "message": "http://192.168.1.41:8000/status responded (online)",
+            "weight": 6,
+            "details": {
+                "url": "http://192.168.1.41:8000/status",
+                "result": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 1.7,
+                    "payload": {
+                        "status": "online",
+                        "service": "AI-LAB",
+                        "version": "V6.3",
+                        "runtime": "online",
+                        "primary_node": "node41",
+                        "secondary_node": "node56",
+                        "ollama": "online",
+                        "model": "llama3.1",
+                        "registry": "active"
+                    }
+                },
+                "local_ipv4": [
+                    "169.254.226.109",
+                    "192.168.1.41",
+                    "192.168.1.9"
+                ]
+            }
+        },
+        {
+            "id": "node56",
+            "name": "Node56 connectivity",
+            "level": "OK",
+            "message": "http://192.168.1.56:8000/status responded (online)",
+            "weight": 4,
+            "details": {
+                "url": "http://192.168.1.56:8000/status",
+                "result": {
+                    "ok": true,
+                    "status_code": 200,
+                    "latency_ms": 28.9,
+                    "payload": {
+                        "status": "online",
+                        "service": "AI-LAB",
+                        "version": "V6.3",
+                        "runtime": "online",
+                        "primary_node": "node41",
+                        "secondary_node": "node56",
+                        "ollama": "online",
+                        "model": "llama3.1",
+                        "registry": "active"
+                    }
+                },
+                "local_ipv4": [
+                    "169.254.226.109",
+                    "192.168.1.41",
+                    "192.168.1.9"
+                ]
+            }
+        },
+        {
+            "id": "json_report",
+            "name": "JSON report generation",
+            "level": "WARNING",
+            "message": "cognitive report is valid but 198 min old",
+            "weight": 4,
+            "details": {
+                "path": "E:\\AI-Server\\data\\cognitive_report.json",
+                "timestamp": "2026-11-05T09:05:09.099150",
+                "age_seconds": 11880.1,
+                "diagnostics_report": "E:\\AI-Server\\data\\diagnostics_report.json"
+            }
+        },
+        {
+            "id": "database",
+            "name": "Database accessibility",
+            "level": "OK",
+            "message": "E:\\AI-Server\\database\\chat.db (1 memory rows)",
+            "weight": 4,
+            "details": {
+                "sqlite": [
+                    {
+                        "path": "E:\\AI-Server\\database\\chat.db",
+                        "ok": true,
+                        "tables": [
+                            "memory",
+                            "sqlite_sequence"
+                        ],
+                        "memory_rows": 1
+                    },
+                    {
+                        "path": "E:\\AI-Server\\database\\chat.db",
+                        "ok": true,
+                        "tables": [
+                            "memory",
+                            "sqlite_sequence"
+                        ],
+                        "memory_rows": 1
+                    },
+                    {
+                        "path": "E:\\AI-Server\\database\\chat.db",
+                        "ok": true,
+                        "tables": [
+                            "memory",
+                            "sqlite_sequence"
+                        ],
+                        "memory_rows": 1
+                    }
+                ],
+                "json_store": "E:\\AI-Server\\database\\memory.json",
+                "json_store_ok": true
+            }
+        }
+    ]
+}
