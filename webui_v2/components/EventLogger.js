@@ -10,10 +10,12 @@ const loggerContainer = document.getElementById("event-stream");
  
 async function fetchCognitiveReport() {
 
-    console.log("Attempting to fetch cognitive report from /runtime/cognitive-report...");
+    console.log(
+    "Fetching runtime data from /runtime/master-loop..."
+);
 
     try {
-        const response = await fetch('/runtime/cognitive-report');
+        const response = await fetch('/runtime/master-loop');
 
         if (!response.ok) {
             throw new Error(`HTTP error! Status code: ${response.status}`);

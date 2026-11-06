@@ -1,0 +1,142 @@
+/* --- Variabili Colore Base --- */
+:root {
+    --bg-main: #0f1218;         /* Sfondo molto scuro (Navy/Black) */
+    --card-bg: #1c2333;         /* Fondo delle card / widget */
+    --text-primary: #b9d4ff;   /* Testo generale (blu chiaro neon) */
+    --accent-glow: #00aaff;    /* Blu elettrico per enfasi/attivo */
+    --success-color: #38c172;  /* Verde OK */
+    --warning-color: #ffcc00;  /* Giallo Attenzione */
+    --danger-color: #e53e3e;   /* Rosso Errore */
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Consolas', monospace, sans-serif; /* Font tecnico/terminale */
+    padding: 20px;
+    margin: 0;
+}
+
+/* Layout Grid Principale */
+.dashboard-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonne principali per la panoramica */
+    grid-template-areas: 
+        "metrics metrics core"
+        "infra infra task"
+        "runtime runtime runtime";
+}
+
+/* Assegnazione delle sezioni al grid */
+#system-metrics { grid-area: metrics; }
+#cognitive-core { grid-area: core; }
+#infrastructure { grid-area: infra; }
+#task-center { grid-area: task; }
+#runtime-status { grid-area: runtime; }
+
+/* --- Widget Base --- */
+.widget-container {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.1); /* Effetto glow sottile */
+    border: 1px solid #2a384e;
+}
+
+h2 {
+    color: var(--accent-glow);
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(0, 170, 255, 0.3);
+}
+
+/* --- System Health Gauge --- */
+.metric-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+.gauge-card {
+    flex: 1;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid #3a4b6e;
+    text-align: center;
+}
+
+/* --- Stato e Indicatori (Status) --- */
+.status-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.agent-card {
+    flex: 1 1 calc(33% - 20px); /* Adattivo su 3 elementi */
+    min-width: 250px;
+    padding: 15px;
+    border-left: 4px solid var(--accent-glow);
+}
+
+/* --- Runtime Details --- */
+.panel-details p {
+    margin: 8px 0;
+}
+.runtime-value, .agent-list {
+    color: #92a3ff; /* Colore leggermente diverso per i valori di stato */
+    font-weight: bold;
+}
+
+/* --- Event Log --- */
+#event-stream {
+    height: 300px;
+    overflow-y: scroll;
+    background-color: #141920; /* Più scuro del fondo per il log */
+    border: 1px solid #2a384e;
+    padding: 10px;
+    font-size: 0.9em;
+}
+
+.log-item {
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
+
+/* --- Colori di stato (Highlight) --- */
+.status-ok { color: var(--success-color); }
+.status-warning { color: var(--warning-color); }
+.status-down, .agent-card[data-agent*="offline"] { 
+    color: var(--danger-color); 
+}
+
+/* MEDIA QUERY per reattività (Mobile/Tablet) */
+@media screen and (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr); /* Due colonne su schermi medi */
+        grid-template-areas: 
+            "metrics metrics"
+            "core core"
+            "infra task"
+            "runtime runtime";
+    }
+}
+@media screen and (max-width: 768px) {
+     .dashboard-grid {
+        grid-template-columns: 1fr; /* Una colonna su schermi piccoli */
+        grid-template-areas: 
+            "metrics"
+            "core"
+            "infra"
+            "task"
+            "runtime";
+    }
+}
+
+/* Global Styling per il Sistema Info (Header) */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 2px dashed rgba(0, 170, 255, 0.3);
+}

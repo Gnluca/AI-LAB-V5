@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LAB v2 - Command Center Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="dashboard-header">
+        <h1>[ AI LAB V5.2 ] COMMAND CENTER DASHBOARD</h1>
+        <div class="system-info">
+            <span>VERSION: v2.0</span> | 
+            <span id="knowledge-coverage-status">Knowledge Coverage: --%</span> |
+            <span id="global-health-score" class="metric-value status-ok">HEALTH SCORE: N/A</span>
+        </div>
+    </header>
+
+    <div class="dashboard-grid">
+        
+        <!-- SEZIONE 1: System Health (MetricGauge) -->
+        <section id="system-metrics" class="widget-container card health-monitor">
+            <h2>1. SYSTEM HEALTH MONITOR</h2>
+            <div class="metric-group">
+                <div class="gauge-card"><span data-resource="cpu">%</span> CPU Load</div>
+                <div class="gauge-card"><span data-resource="ram">%</span> RAM Usage</div>
+                <div class="gauge-card"><span data-resource="vram">%</span> VRAM Load</div>
+            </div>
+        </section>
+
+        <!-- SEZIONE 2: Runtime (StatusPanel & MasterLoop) -->
+        <section id="runtime-status" class="widget-container card runtime-monitor">
+            <h2>2. RUNTIME CORE</h2>
+            <div class="panel-details">
+                <p><strong>Master Loop State:</strong> <span class="runtime-value">Initializing...</span></p>
+                <p><strong>Current Cycle:</strong> <span id="current-cycle" class="runtime-value">N/A</span></p>
+                <p><strong>Uptime:</strong> <span id="uptime-display" class="runtime-value">0s</span></p>
+            </div>
+        </section>
+
+        <!-- SEZIONE 3: Cognitive Core (StatusPanel & Citazione Integrata) -->
+        <section id="cognitive-core" class="widget-container card core-monitor">
+            <h2>3. COGNITIVE CORE</h2>
+            <div class="panel-details">
+                <p><strong>Last Observation:</strong> <span id="observation-status" class="runtime-value">Aguardando dati...</span></p>
+                <p><strong>Active Goals:</strong> <span id="active-goals" class="agent-list">Governance, MemoryAgentV1</span></p>
+                <p><strong>Decision Engine State:</strong> <span class="status-indicator status-ok">Optimal</span></p>
+            </div>
+        </section>
+
+        <!-- SEZIONE 4: Infrastructure (StatusPanel) -->
+        <section id="infrastructure" class="widget-container card infra-monitor">
+            <h2>4. INFRASTRUCTURE STATUS</h2>
+            <div class="status-grid agent-grid">
+                <div class="agent-card"
+     data-role="primary_node"
+     id="node41">
+</div>
+
+<div class="agent-card"
+     data-role="secondary_node"
+     id="node56">
+</div>
+
+<div class="agent-card"
+     data-role="ollama"
+     id="ollama">
+</div>
+
+<div class="agent-card"
+     data-role="runtime"
+     id="runtime">
+</div>
+
+        </section>
+
+        <!-- SEZIONE 5: Task Center (TaskCenter) -->
+        <section id="task-center" class="widget-container card task-monitor">
+            <h2>5. TASK CENTER</h2>
+            <div class="task-details">
+                <h4>📋 Task Queue</h4>
+                <ul id="task-queue-list"><li>Data Ingestion (Pendente)</li><li>Model Fine-Tuning (Pending)</li></ul>
+                
+                <h4 style="margin-top: 15px;">✅ Ultimi Tasks Eseguiti</h4>
+                <div class="log-history">Last Run: MemoryAgentV1 | Status: Success</div>
+            </div>
+        </section>
+
+    </div> <!-- Fine dashboard-grid -->
+
+
+    <!-- SEZIONE 6: Event Feed (EventLogger) -->
+    <section id="event-feed" class="widget-container card event-monitor">
+        <h2>6. REAL-TIME EVENT FEED</h2>
+        <div id="event-stream" class="log-scroll-area">
+            <!-- Gli eventi verranno inseriti qui da JavaScript -->
+            <div class="log-item">[INIT] Sistema avviato, caricamento componenti V5.2 completato.</div>
+            <div class="log-item status-warning">[WARN] Connessione al Knowledge Base parzialmente degradata (13.95%).</div>
+        </div>
+    </section>
+
+
+    <!-- Importazione dei moduli JS per la modularità -->
+    <script type="module" src="./app.js"></script>
+
+</body>
+</html>

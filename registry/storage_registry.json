@@ -1,13 +1,18 @@
 [
     {
-        "used_gb":  360.6,
+        "used_gb":  361.53,
         "drive":  "C",
-        "free_gb":  569.83
+        "free_gb":  568.89
     },
     {
-        "used_gb":  2.63,
+        "used_gb":  0,
+        "drive":  "D",
+        "free_gb":  28.8
+    },
+    {
+        "used_gb":  2.66,
         "drive":  "E",
-        "free_gb":  928.89
+        "free_gb":  928.85
     },
     {
         "used_gb":  56.03,

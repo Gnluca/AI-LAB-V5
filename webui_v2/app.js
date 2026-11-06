@@ -2,8 +2,15 @@
 
 import { startStatusPanel }
     from './components/StatusPanel.js';
+
 import { initializeTaskCenter }
     from './components/TaskCenter.js';
+
+import {
+    initializeMetricGauge
+}
+    from './components/MetricGauge.js';
+	
 import { initializeEventLogger } from './components/EventLogger.js';
 
 /**
@@ -21,7 +28,8 @@ async function initializeApplication() {
     await Promise.all([
     startStatusPanel(),
     initializeTaskCenter(),
-    initializeEventLogger()
+    initializeEventLogger(),
+    initializeMetricGauge()
 ]);
 
     console.log("✅ WebUI: Tutti i componenti sono stati inizializzati con successo.");

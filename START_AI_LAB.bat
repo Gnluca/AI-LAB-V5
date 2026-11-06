@@ -5,9 +5,9 @@ start "AI-LAB SERVER" cmd /k python -m uvicorn server.server:app --host 0.0.0.0 
 
 timeout /t 5 >nul
 
-start "AI-LAB RUNTIME" cmd /k python runtime\ai_lab_runtime.py
+start "AI-LAB MASTER LOOP" cmd /k python runtime\master_loop.py
 
-timeout /t 10 >nul
+timeout /t 5 >nul
 
 python diagnostics.py > data\logs\diagnostics_startup.log 2>&1
 

@@ -11,31 +11,30 @@ import { getStatus } from './apiHelper.js'; // Assumiamo che questo sia l'unico 
  
  
 function updateStatusByRole(key, value) {
-    // 1. Costruisce il selettore per trovare l'elemento tramite attributo "data-role"
-    const selector = `[data-role="${key}"]`;
-    const element = document.querySelector(selector);
 
-    if (element) {
-        let displayValue;
-        if (typeof value === 'string') {
-            // Tratta tutte le stringhe in maiuscolo per coerenza con lo stato "online" / "offline"
-            displayValue = value.toUpperCase(); 
-        } else if (value && typeof value !== 'undefined') {
-             // Gestisce numeri, booleani o altri tipi di dati validi
-             displayValue = String(value).toUpperCase(); 
-        } else {
-            // Valore mancante o nullo
-            displayValue = 'N/A';
-        }
+    const card = document.querySelector(
+        `[data-role="${key}"]`
+    );
 
-        element.textContent = displayValue;
+    if (!card) {
+        return;
+    }
+
+    const target =
+        card.querySelector(".runtime-value") ||
+        card.querySelector(".value") ||
+        card.querySelector(".status-value");
+
+    let displayValue = value ?? "N/A";
+
+    if (typeof displayValue === "string") {
+        displayValue = displayValue.toUpperCase();
+    }
+
+    if (target) {
+        target.textContent = displayValue;
     } else {
-		
-        // NON lancia un errore, ma avvisa lo sviluppatore che il data-role manca nell'HTML.
-		
-        if (!element) {
-    return;
-}
+        card.textContent = displayValue;
     }
 }
 
